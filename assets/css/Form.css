@@ -7,14 +7,18 @@ form div {
     margin-bottom: 16px;
 }
 
-form div input {
+form div input, form input {
     padding: 8px 16px;
-    transition: all 0.1s;
+    transition: all 0.2s;
+}
+
+form div input::placeholder {
+    color: gray;
 }
 
 form div input:focus {
     outline: none;
-    background-color: rgb(255, 247, 249);
+    background-color: #fff7f9;
     box-shadow: 0px 2px 0px 0px pink;
 }
 
@@ -22,12 +26,13 @@ form div input[type=submit] {
     margin-top: 16px;
     padding: 8px 16px;
     border: 2px solid pink;
-    border-radius: 32px;
+    border-radius: 64px;
     font-weight: 500;
 }
 
 form input[type=submit]:hover {
     background-color: pink;
+    color: white;
 }
 
 .form-title {
