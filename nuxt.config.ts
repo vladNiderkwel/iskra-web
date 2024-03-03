@@ -7,6 +7,7 @@ export default defineNuxtConfig({
         PlayfairDisplay: [400, 500, 700],
         Inter: [400, 500, 700],
         FiraSans: [400, 500, 700],
+        Rubik: [400, 500, 700],
       }
     }]
   ]

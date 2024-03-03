@@ -2,6 +2,7 @@
     padding: 16px;
 }
 
+/*
 #nav :first-child {
     margin-bottom: 16px;
 }
@@ -13,7 +14,7 @@
 #nav li {
     transition: all 0.2s;
 }
-
+*/
 #nav-logo {
     padding: 8px;
     margin: 0 auto;

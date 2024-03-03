@@ -1,19 +1,31 @@
-<script>
-  import '~/assets/css/Navigation.css'
+<script setup>
+  import '~/assets/css/Form.css'
+  import '~/assets/css/Main.css'
+
+  const email = ref('');
+  const password = ref('');
+
+  const login = async () => {
+    console.log(email.value)
+    console.log(password.value)
+  }
 </script>
 
 <template>
-    <div class="flex h-full">
- 
-      <ul class="w-fit list-none bg-iskra-milk" id="nav">
-        <li ><NuxtLink class="w-full" to="/"><img id="nav-logo" src="~assets/images/ic_spark.svg"></NuxtLink></li>
-
-        <li class="nav-chip"><NuxtLink class="w-full" to="/login">Войти</NuxtLink></li>
-        <li class="nav-chip"><NuxtLink class="w-full" to="/register">Создать аккаунт</NuxtLink></li>
-      </ul>
-
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
+  <form class="m-auto p-4 w-fit h-fit" @submit.prevent="login">
+    <p class="form-title">Вход в систему</p>
+    <div>
+      <img src="~assets/images/email.svg" class="mr-3">
+      <input type="email" v-model="email" placeholder="Почта" required>
     </div>
+
+    <div>
+      <img src="~assets/images/password.svg" class="mr-3">
+      <input type="password" v-model="password" placeholder="Пароль" required>
+    </div>
+    
+    <div>
+      <input type="submit" value="Войти" class="m-auto">
+    </div>
+  </form>
 </template>
