@@ -1,0 +1,25 @@
+<script setup>
+    import '~/assets/css/Titles.css';
+    import '~/assets/css/AddPost.css';
+</script>
+
+<template>
+    <div class="flex w-full h-full bg-iskra-surface">   
+        <NavigationRail />
+
+        <div class="w-full h-full px-2 py-4 overflow-y-scroll">
+            <p class="title">Посты</p>
+
+            <NuxtLink to="/post/add" class="link">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+                </svg>
+                <p class="ml-3">Добавить</p>
+            </NuxtLink>
+
+            <div class="flex flex-col items-center">
+                
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,44 +1,49 @@
-form {
+.form {
     height: auto;
+    border-radius: 20px;
+    padding: 16px;
+
+    background: var(--iskra-surface-variant);
+    fill: var(--iskra-on-primary-container);
+    color: var(--iskra-on-primary-container);
 }
 
-form div {
-    display: flex;
-    margin-bottom: 16px;
-}
+.form .text-input {
+    border-radius: 16px;
+    padding: 16px;
 
-form div input, form input {
-    padding: 8px 16px;
     transition: all 0.2s;
 }
 
-form div input::placeholder {
-    color: gray;
+.form .text-input input {
+    background: transparent;
 }
 
-form div input:focus {
+.form .text-input input::placeholder {
+    color: var(--iskra-on-primary-container);
+}
+
+.form .text-input input:focus {
     outline: none;
-    background-color: #fff7f9;
-    box-shadow: 0px 2px 0px 0px pink;
 }
 
-form div input[type=submit] {
-    margin-top: 16px;
+.form .text-input:focus-within {
+    background: var(--iskra-primary-transparent);
+}
+
+.form input[type=submit] {
     padding: 8px 16px;
-    border: 2px solid pink;
-    border-radius: 64px;
-    font-weight: 500;
+    border-radius: 20px;
+
+    color: var(--iskra-on-primary-container);
+    background: var(--iskra-primary-container);
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+    transition: all 0.2s;
 }
 
-form input[type=submit]:hover {
-    background-color: pink;
-    color: white;
-}
-
-.form-title {
-    font-family: PlatfairDisplay;
-    font-size: xx-large;
-    text-align: center;
-    margin-top: 8px;
-    margin-bottom: 32px;
+.form input[type=submit]:hover {
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    cursor: pointer;
 }

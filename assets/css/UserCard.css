@@ -1,0 +1,22 @@
+.user-card {
+    min-width: 500px;
+    width: 50%;
+    border-radius: 20px;
+    background: var(--iskra-pale-purple);
+    padding: 16px;
+    color: var(--iskra-dark-purple);
+}
+
+.user-card img {
+    border-radius: 100%;
+    height: 36px;
+    width: 36px;
+}
+
+.user-card p {
+    min-width: 300px;
+}
+
+.user-card a {
+    min-width: 200px;
+}

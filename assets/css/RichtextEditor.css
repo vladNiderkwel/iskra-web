@@ -1,0 +1,52 @@
+.editor {
+    width: 900px;
+    min-width: 500px;
+    color: var(--iskra-on-primary-container);
+}
+
+.editor .editor-menu {
+    display: flex;
+    width: 100%;
+    border-radius: 8px;
+    padding: 4px;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+    background: var(--iskra-primary-container);
+}
+
+.editor .editor-menu button {
+    padding: 8px;
+    border-radius: 8px;
+    margin: 0 2px;
+    
+    transition: all 0.2s;
+
+    color: var(--iskra-on-primary-container);
+    fill: var(--iskra-on-primary-container);
+}
+
+.editor .editor-menu button:first-child {
+    margin-left: auto;
+}
+
+.editor .editor-menu button:last-child {
+    margin-right: auto;
+} 
+
+.editor .editor-menu button:hover {
+    background: var(--iskra-primary-transparent);
+}
+
+.editor .ProseMirror, .editor .ProseMirror-focused {
+    max-height: 430px;
+    border-radius: 8px;
+    padding: 8px;
+    overflow-y: scroll;
+
+    background-color: var(--iskra-surface-variant);
+}
+
+.editor .ProseMirror-focused {
+    outline-color: var(--iskra-on-primary-container) !important;
+}

@@ -1,0 +1,42 @@
+.search {
+    width: fit-content;
+    border-radius: 20px;
+    display: flex;
+    padding: 8px;
+    transition: all 0.2s;
+    width: 50%;
+    min-width: 150px;
+
+    background: var(--iskra-surface-variant);
+    color: var(--iskra-on-surface-variant);
+    fill:  var(--iskra-on-surface-variant);
+}
+
+.search input::placeholder {
+    color: var(--iskra-on-surface-variant);
+}
+
+.search input {
+    width: 100%;
+    display: block;
+    padding: 0 16px;
+    border-radius: 16px;
+    background: transparent;
+    transition: all 0.2s;
+}
+
+.search input:focus {
+    outline: none;
+    background: var(--iskra-on-surface-variant-transparent);
+}
+
+.search .icon{
+    padding: 8px;
+    border-radius: 16px;
+
+    transition: all 0.2s;
+}
+
+.search .icon:hover{
+    background: var(--iskra-on-surface-variant-transparent);
+}
