@@ -25,6 +25,7 @@
     "@tiptap/extension-underline": "^2.2.4",
     "@tiptap/pm": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.4",
-    "@tiptap/vue-3": "^2.2.4"
+    "@tiptap/vue-3": "^2.2.4",
+    "vue-yandex-maps": "^2.1.1"
   }
 }

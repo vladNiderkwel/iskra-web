@@ -5,7 +5,7 @@
 
 <template>
     <div class="editor mx-auto">
-        <div v-if="editor" class="mb-4 editor-menu">
+        <div v-if="editor" class="mb-1 editor-menu">
             <button
             @click="editor.chain().focus().toggleBold().run()"
             :disabled="!editor.can().chain().focus().toggleBold().run()"

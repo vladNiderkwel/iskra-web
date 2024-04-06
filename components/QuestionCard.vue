@@ -1,6 +1,4 @@
 <script setup>
-    import '~/assets/css/QuestionCard.css'
-
     const { question } = defineProps(['question'])
 
     const months = [
@@ -43,5 +41,6 @@
 </template>
 
 <style scoped>
-
+    @import '~/assets/css/QuestionCard.css';
+    @import '~/assets/css/Link.css';
 </style>

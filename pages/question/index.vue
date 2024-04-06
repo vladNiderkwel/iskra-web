@@ -4,6 +4,7 @@
 
     const questions = ref([
         {
+            id: 1,
             question: "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",
             date: "01.01.2000",
             author: {
@@ -11,6 +12,7 @@
             }
         },
         {
+            id: 1,
             question: "ere",
             date: "01.01.2000",
             author: {
@@ -18,6 +20,7 @@
             }
         },
         {
+            id: 1,
             question: "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",
             date: "01.01.2000",
             author: {
@@ -29,14 +32,9 @@
 </script>
 
 <template>
-    <div class="flex w-full h-full bg-iskra-surface">   
-        <NavigationRail />
+    <p class="title">Вопросы пользователей</p>
 
-        <div class="w-full h-full px-2 py-4 overflow-y-scroll">
-            <p class="title">Вопросы пользователей</p>
-            <div class="flex flex-col items-center">
-                <QuestionCard v-for="q in questions" :question="q" />
-            </div>
-        </div>
+    <div class="flex flex-col items-center">
+        <QuestionCard v-for="q in questions" :question="q" />
     </div>
 </template>

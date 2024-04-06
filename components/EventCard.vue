@@ -1,6 +1,4 @@
 <script setup>
-    import '~/assets/css/EventCard.css'
-
     const { event } = defineProps(['event'])
 
     const months = [
@@ -54,9 +52,10 @@
             <p class="ml-4">{{ event.members.length }} участников</p>
         </div>
         <p class="content">{{ event.description }}</p>
-        </div>
+    </div>
 </template>
 
 <style scoped>
-
+    @import '~/assets/css/EventCard.css';
+    @import '~/assets/css/Link.css';
 </style>

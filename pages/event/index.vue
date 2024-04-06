@@ -86,14 +86,8 @@
 </script>
 
 <template>
-    <div class="flex w-full h-full bg-iskra-surface">   
-        <NavigationRail />
-
-        <div class="w-full p-4 overflow-y-scroll">
-            <p class="title">События</p>
-            <div class="flex flex-col items-center">
-                <EventCard v-for="e in events" :event="e" />
-            </div>
-        </div>
-    </div>
+  <p class="title">События</p>
+  <div class="flex flex-col items-center">
+      <EventCard v-for="e in events" :event="e" />
+  </div>
 </template>

@@ -10,8 +10,6 @@
     border-radius: 8px;
     padding: 4px;
 
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-
     background: var(--iskra-primary-container);
 }
 
@@ -43,7 +41,8 @@
     border-radius: 8px;
     padding: 8px;
     overflow-y: scroll;
-
+    
+    color: var(--iskra-on-surface-variant);
     background-color: var(--iskra-surface-variant);
 }
 
