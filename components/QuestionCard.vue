@@ -1,46 +1,47 @@
 <script setup>
-    const { question } = defineProps(['question'])
-
-    const months = [
-        "января",
-        "февраля",
-        "марта",
-        "апреля",
-        "мая",
-        "июня",
-        "июля",
-        "августа",
-        "сентября",
-        "октября",
-        "ноября",
-        "декабря"
-    ]
-    
-    const splitDate = question.date.split(".")
-
-    if(splitDate[0].length == 2 && splitDate[0].charAt(0) == '0')
-        splitDate[0] = splitDate[0].charAt(1)
-
-    if(splitDate[1].length == 2 && splitDate[1].charAt(0) == '0')
-        splitDate[1] = splitDate[1].charAt(1)
+const { question } = defineProps(['question'])
 
 </script>
 
 <template>
-    <div class="question-card mt-2">
+    <div @click="navigateTo(`/question/${question.id}`)" class="card">
+
         <div class="flex self-center">
-            <img class="mr-3 !my-auto" src="~assets/images/photo_placeholder.png"/>
-            <div class="my-auto">
-                <NuxtLink to="/" class="author">{{ question.author.name }}</NuxtLink>
-                <p class="date ">{{ `${splitDate[0]} ${months[splitDate[1]]}  ${splitDate[2]}` }}</p>
-            </div>
-            <NuxtLink to="/" class="link ml-auto mt-auto">Подробнее</NuxtLink>
+            <img class="mr-3 my-auto w-8 h-8 rounded-full" src="~assets/images/photo_placeholder.png" />
+            <NuxtLink to="/" class="author my-auto">{{ question.author.name }}</NuxtLink>
+
+            <p class="ml-auto my-auto">{{ getDateString(question.date) }}</p>
         </div>
+
         <p class="mt-4 content">{{ question.question }}</p>
     </div>
 </template>
 
 <style scoped>
-    @import '~/assets/css/QuestionCard.css';
-    @import '~/assets/css/Link.css';
+@import '~/assets/css/Button.css';
+
+.card {
+    width: 64%;
+    min-width: 400px;
+
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.4s;
+
+    background: var(--iskra-color-surface-variant);
+    color: var(--iskra-color-on-surface-variant);
+    fill: var(--iskra-color-on-surface-variant);
+}
+
+.card:hover {
+    border-radius: 36px;
+    cursor: pointer;
+}
+
+.content {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
 </style>

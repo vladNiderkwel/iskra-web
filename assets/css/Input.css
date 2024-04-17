@@ -2,8 +2,7 @@
     border-radius: 8px;
     padding: 8px 16px;
 
-    outline: solid var(--iskra-primary-transparent);
-    outline-width: 1px;
+    outline: solid var(--iskra-color-outline) 1px;
 
     background: transparent;
 
@@ -11,9 +10,9 @@
 }
 
 .text-input::placeholder {
-    color: var(--iskra-on-primary-container);
+    color: var(--iskra-color-on-primary-container);
 }
 
 .text-input:focus {
-    background: var(--iskra-primary-transparent);
+    background: var(--iskra-color-surface-variant);
 }

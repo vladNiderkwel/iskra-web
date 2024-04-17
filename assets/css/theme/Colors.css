@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --iskra-color-primary: #3c6a00;
+    --iskra-color-on-primary: #ffffff;
+    --iskra-color-primary-container: #98fc0d;
+    --iskra-color-on-primary-container: #0f2000;
+    --iskra-color-secondary: #b90064;
+    --iskra-color-on-secondary: #ffffff;
+    --iskra-color-secondary-container: #ffd9e2;
+    --iskra-color-on-secondary-container: #3e001e;
+    --iskra-color-tertiary: #805600;
+    --iskra-color-on-tertiary: #ffffff;
+    --iskra-color-tertiary-container: #ffddaf;
+    --iskra-color-on-tertiary-container: #281800;
+    --iskra-color-error: #ba1a1a;
+    --iskra-color-error-container: #ffdad6;
+    --iskra-color-on-error: #ffffff;
+    --iskra-color-on-error-container: #410002;
+    --iskra-color-background: #fdfcf5;
+    --iskra-color-on-background: #1b1c18;
+    --iskra-color-surface: #fdfcf5;
+    --iskra-color-on-surface: #1b1c18;
+    --iskra-color-surface-variant: #e1e4d5;
+    --iskra-color-on-surface-variant: #1b1c18;
+    --iskra-color-outline: #75796c;
+    --iskra-color-shadow: #000000;
+    --iskra-color-surface-tint: #3c6a00;
+    --iskra-color-outline-variant: #c4c8ba;
+    --iskra-color-scrim: #000000;
+
+    --iskra-color-green: #98fc0d;
+    --iskra-color-black: #1b1c18;
+}
+
+.dark {
+    --iskra-color-primary: #84dd00;
+    --iskra-color-on-primary: #1d3700;
+    --iskra-color-primary-container: #2c5000;
+    --iskra-color-on-primary-container: #98fc0d;
+    --iskra-color-secondary: #ffb0c9;
+    --iskra-color-on-secondary: #650034;
+    --iskra-color-secondary-container: #8e004b;
+    --iskra-color-on-secondary-container: #ffd9e2;
+    --iskra-color-tertiary: #fdbb4a;
+    --iskra-color-on-tertiary: #432c00;
+    --iskra-color-tertiary-container: #614000;
+    --iskra-color-on-tertiary-container: #ffddaf;
+    --iskra-color-error: #ffb4ab;
+    --iskra-color-error-container: #93000a;
+    --iskra-color-on-error: #690005;
+    --iskra-color-on-error-container: #ffdad6;
+    --iskra-color-background: #1b1c18;
+    --iskra-color-on-background: #e3e3db;
+    --iskra-color-surface: #1b1c18;
+    --iskra-color-on-surface: #e3e3db;
+    --iskra-color-surface-variant: #44483d;
+    --iskra-color-on-surface-variant: #c4c8ba;
+    --iskra-color-outline: #8e9285;
+    --iskra-color-shadow: #000000;
+    --iskra-color-surface-tint: #84dd00;
+    --iskra-color-outline-variant: #44483d;
+    --iskra-color-scrim: #000000;
+
+    --iskra-color-green: #98fc0d;
+    --iskra-color-black: #1b1c18;
+}

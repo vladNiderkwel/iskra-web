@@ -33,31 +33,29 @@
 </script>
 
 <template>
-    <div class="w-min">
-        <div class="card my-5 flex">
-            <div v-if="service.isActive" class="active-dot my-auto mr-4"></div>
-            <div v-else class="unactive-dot my-auto mr-4"></div>
+    <div class="w-min card my-5 flex">
+        <div v-if="service.isActive" class="active-dot my-auto mr-4"></div>
+        <div v-else class="unactive-dot my-auto mr-4"></div>
 
-            <p class="name my-auto text-2xl font-bold">{{ name }}</p>
+        <p class="name my-auto text-2xl font-bold">{{ name }}</p>
 
-            <a v-if="service.isActive" @click="toogle" class="link ml-auto">Приостановить</a>
-            <a v-else @click="toogle" class="link ml-auto">Возобновить</a>
-        </div>
+        <a v-if="service.isActive" @click="toogle" class="button-green-filled ml-auto">Приостановить</a>
+        <a v-else @click="toogle" class="button-green-filled ml-auto">Возобновить</a>
     </div>
 </template>
 
 <style scoped>
-    @import '~/assets/css/Link.css';
+    @import '~/assets/css/Button.css';
 
     .card {
         width: 640px;
-        color: var(--iskra-dark-purple);
+        color: var(--iskra-color-background-container);
     }
 
     .active-dot {
         width: 10px;
         height: 10px;
-        background: green;
+        background: var(--iskra-color-green);
         border-radius: 9999px;
         animation: pulse 2s linear infinite;
     }

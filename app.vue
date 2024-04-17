@@ -1,9 +1,18 @@
-<script>
-  import '~/assets/css/Main.css'
+<script setup>
+useHead({
+  bodyAttrs: {
+    class: '',
+  },
+});
 </script>
 
 <template>
   <NuxtLayout>
-    <NuxtPage/>
+    <NuxtPage />
   </NuxtLayout>
 </template>
+
+<style>
+@import '~/assets/css/theme/Colors.css';
+@import '~/assets/css/Main.css';
+</style>

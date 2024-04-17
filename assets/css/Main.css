@@ -1,56 +1,17 @@
-:root {
-    --iskra-pink: #b8006b;
-    --iskra-pale-pink: #ffd9e4;
-    --iskra-dark-pink: #3e0020;
-
-    --iskra-green: #84ff0c;
-    --iskra-pale-green: #c9ffad;
-    --iskra-dark-green: rgb(23, 59, 4);
-
-    --iskra-purple: #8524d9;
-    --iskra-pale-purple: #f0dbff;
-    --iskra-dark-purple: #2c0051;
-
-    --iskra-black: #04010b;
-
-
-    --iskra-primary: #386a00;
-    --iskra-primary-transparent: #386a0036;
-    --iskra-primary-container: #b0f672;
-    --iskra-on-primary-container: #0d2000;
-
-    --iskra-secondary: #984061;
-    --iskra-secondary-transparent: #98406036;
-    --iskra-secondary-container: #ffd9e2;
-    --iskra-on-secondary-container: #3e001e;
-
-    --iskra-tertiary: #8340a7;
-    --iskra-tertiary-transparent: #8340a736;
-    --iskra-tertiary-container: #f6d9ff;
-    --iskra-on-tertiary-container: #310049;
-
-    --iskra-surface: #fdfcf5;
-    --iskra-on-surface: #1b1c18;
-
-    --iskra-surface-variant: #e0e4d6;
-    --iskra-on-surface-variant: #44483e;
-    --iskra-on-surface-variant-transparent: #44483e36;
-
-    --iskra-outline: #74796d;
-}
-
 html,body, #__nuxt, #__layout {
     height:100% !important;
     width: 100% !important;
 }
 
 body {
-    color: var(--iskra-black);
-    fill: var(--iskra-black);
+    background: var(--iskra-color-background);
+    color: var(--iskra-color-on-background);
+    fill: var(--iskra-color-on-background);
+    
     font-family: Rubik;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
     font-weight: bold;
 }
 

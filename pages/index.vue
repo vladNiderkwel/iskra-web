@@ -1,3 +1,5 @@
 <template>
-  Пусьто
+  <div>
+    <p>Пусьто</p>
+  </div>
 </template>

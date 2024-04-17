@@ -1,10 +1,9 @@
 <template>
-    <div class="flex w-full h-full bg-iskra-surface">
+    <div class="flex w-full h-full">
+        <ColorModeButton class="absolute right-8 top-4 z-10"/>
+
         <NewNavigationRail />
         
-        <!--
-            <VerticalDivider />
-        -->
         <div class="w-full h-full px-2 py-4 overflow-y-scroll">
             <slot />
         </div>
