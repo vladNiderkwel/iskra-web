@@ -13,6 +13,6 @@ useHead({
 </template>
 
 <style>
-@import '~/assets/css/theme/Colors.css';
+@import '~/assets/css/Colors.css';
 @import '~/assets/css/Main.css';
 </style>

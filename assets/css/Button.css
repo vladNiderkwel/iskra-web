@@ -54,6 +54,7 @@
 }
 
 .button-green-outline:hover {
+    background: var(--iskra-color-primary-container);
     border-radius: 8px;
     cursor: pointer;
 }
@@ -75,5 +76,45 @@
 .button-icon:hover {
     background: var(--iskra-color-outline);
     fill: var(--iskra-color-surface);
+    cursor: pointer;
+}
+
+.button-pink-filled {
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    padding: 8px 16px;
+    border-radius: 36px;
+    outline: none;
+    
+    color: var(--iskra-color-on-secondary-container);
+    fill: var(--iskra-color-on-secondary-container);
+    background: var(--iskra-color-secondary-container);
+    transition: all 0.4s;
+}
+
+.button-pink-filled:hover {
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.button-pink-outline {
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    padding: 8px 16px;
+    border-radius: 36px;
+    outline: none;
+    
+    color: var(--iskra-color-on-secondary-container);
+    fill:  var(--iskra-color-on-secondary-container);
+    outline: solid var(--iskra-color-outline) 1px;
+
+    transition: all 0.4s;
+}
+
+.button-pink-outline:hover {
+    background: var(--iskra-color-secondary-container);
+    border-radius: 8px;
     cursor: pointer;
 }

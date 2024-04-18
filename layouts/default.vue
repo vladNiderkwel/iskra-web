@@ -4,7 +4,7 @@
 
         <NewNavigationRail />
         
-        <div class="w-full h-full px-2 py-4 overflow-y-scroll">
+        <div class="w-full h-full max-h-full px-2 py-4 overflow-y-scroll">
             <slot />
         </div>
     </div>

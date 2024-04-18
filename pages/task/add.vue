@@ -35,7 +35,6 @@ const newSection = ref(
         question: "",
         type: 0,
         options: [],
-        answers: []
     }
 )
 
@@ -47,13 +46,11 @@ const addSection = () => {
         question: newSection.value.question,
         type: newSection.value.type,
         options: newSection.value.options,
-        answers: newSection.value.answers,
     })
 
     newSection.value.question = ""
     newSection.value.type = 0
     newSection.value.options = []
-    newSection.value.answers = []
 }
 
 const deleteSection = (sectionId) => {
@@ -196,7 +193,7 @@ const clear = () => {
             </template>
 
             <div class="flex mt-8">
-                <a @click="openAddSectionMenu(); clear();" class="mr-auto w-fit h-fit button-green-outline">
+                <a @click="openAddSectionMenu(); clear();" class="mr-auto w-fit h-fit button-pink-outline">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
                     </svg>
@@ -215,6 +212,7 @@ const clear = () => {
 </template>
 
 <style scoped>
+@import "~/assets/css/Titles.css";
 @import "~/assets/css/Input.css";
 @import "~/assets/css/Button.css";
 

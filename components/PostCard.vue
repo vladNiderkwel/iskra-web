@@ -4,7 +4,7 @@ const { post } = defineProps(['post'])
 </script>
 
 <template>
-    <div :click="{}" class="card">
+    <div @click="navigateTo(`/post/${post.id}`)" class="card">
         <img src="~\assets\images\pattern_2.png" class="w-full object-cover h-56 mb-4">
         <div class="content">
             <p class="font-bold text-2xl w-full mb-2">{{ post.title }}</p>
