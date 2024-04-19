@@ -1,5 +1,5 @@
 .page-number {
-    margin: 0 4px;
+    margin: 0 8px;
     border-radius: 32px;
     padding: 8px 16px;
     border: solid var(--iskra-color-surface-variant) 1px;
@@ -16,8 +16,10 @@
 }
 
 .active-page, .active-page:hover {
+    border: solid var(--iskra-color-green) 1px;
     background: var(--iskra-color-green);
     color: var(--iskra-color-black);
+    border-radius: 8px;
 }
 
 .pages:first-child {

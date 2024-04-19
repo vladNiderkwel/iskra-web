@@ -1,14 +1,19 @@
 <script setup>
 const config = useRuntimeConfig()
-const page = parseInt(useRoute().query.page)
+const page = computed(() => useRoute().query.page)
+//computed(() => useRoute().query.page)
 
 const { data, error, pending, refresh } =
   await useFetch(`${config.public.baseUrl}/user`, {
     method: 'get',
     query: {
-      page: isNaN(page) ? 1 : page
+      page: page.value - 1
     }
   })
+
+watch(page, (newPage) =>{
+  refresh()
+})
 
 const searchPrompt = ref("")
 
@@ -16,7 +21,6 @@ const clear = () => {
   searchPrompt.value = ""
   search()
 }
-
 /*
 const searchUsers = ref("")
 
@@ -68,19 +72,24 @@ search()
         <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
       </template>
 
-      <div class="flex mt-4 justify-center items-center pages" v-if="data.totalPages > 1">
-        <NuxtLink v-if="data.currentPage >= 2" :to="`/user?page=${page - 1}`" class="page-number">
+      <div class="flex mt-8 justify-center items-center pages" v-if="data.totalPages > 1">
+        <NuxtLink v-if="data.currentPage + 1 >= 2"
+          :to="`/user?page=${data.currentPage}`"
+          class="page-number">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
             <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
           </svg>
         </NuxtLink>
 
-        <NuxtLink class="page-number" v-for="page in data.totalPages"
-          :class="{ 'active-page': page === data.currentPage }" :to="`/user?page=${page}`">
-          <p>{{ page }}</p>
+        <NuxtLink v-for="pg in data.totalPages" class="page-number"
+          :to="`/user?page=${pg}`" 
+          :class="{ 'active-page': pg == data.currentPage + 1 }">
+          <p>{{ pg }}</p>
         </NuxtLink>
 
-        <NuxtLink v-if="data.currentPage <= data.totalPages - 1" :to="`/user?page=${page + 1}`" class="page-number">
+        <NuxtLink v-if="data.currentPage + 1 <= data.totalPages - 1"
+          :to="`/user?page=${data.currentPage + 2}`"
+          class="page-number">
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
             <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
           </svg>

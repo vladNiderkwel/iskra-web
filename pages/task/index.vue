@@ -49,18 +49,18 @@ const { data, error, pending, refresh } =
             </template>
 
             <div class="flex mt-4 justify-center items-center pages" v-if="data.totalPages > 1">
-                <NuxtLink v-if="data.currentPage >= 2" :to="`/test?page=${page - 1}`" class="page-number">
+                <NuxtLink v-if="data.currentPage >= 2" :to="`/task?page=${data.currentPage - 1}`" class="page-number">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
                     </svg>
                 </NuxtLink>
 
-                <NuxtLink class="page-number" v-for="page in data.totalPages"
-                    :class="{ 'active-page': page === data.currentPage }" :to="`/test?page=${page}`">
-                    <p>{{ page }}</p>
+                <NuxtLink class="page-number" v-for="pg in data.totalPages"
+                    :class="{ 'active-page': pg === data.currentPage }" :to="`/task?page=${pg}`">
+                    <p>{{ pg }}</p>
                 </NuxtLink>
 
-                <NuxtLink v-if="data.currentPage <= data.totalPages - 1" :to="`/test?page=${page + 1}`"
+                <NuxtLink v-if="data.currentPage <= data.totalPages - 1" :to="`/task?page=${data.currentPage + 1}`"
                     class="page-number">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
