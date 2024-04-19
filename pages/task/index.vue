@@ -1,5 +1,14 @@
 <script setup>
+const config = useRuntimeConfig()
+const page = parseInt(useRoute().query.page)
 
+const { data, error, pending, refresh } =
+    await useFetch(`${config.public.baseUrl}/test`, {
+        method: 'get',
+        query: {
+            page: isNaN(page) ? 1 : page
+        }
+    })
 </script>
 
 <template>
@@ -27,6 +36,39 @@
         </svg>
         <p class="ml-3">Добавить</p>
     </NuxtLink>
+
+    <div class="w-min mx-auto">
+        <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
+
+        <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
+
+        <template v-else>
+            <template v-for="(test, index) in data.content">
+                <!--<TaskCard :task="task" />-->
+                <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
+            </template>
+
+            <div class="flex mt-4 justify-center items-center pages" v-if="data.totalPages > 1">
+                <NuxtLink v-if="data.currentPage >= 2" :to="`/test?page=${page - 1}`" class="page-number">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                    </svg>
+                </NuxtLink>
+
+                <NuxtLink class="page-number" v-for="page in data.totalPages"
+                    :class="{ 'active-page': page === data.currentPage }" :to="`/test?page=${page}`">
+                    <p>{{ page }}</p>
+                </NuxtLink>
+
+                <NuxtLink v-if="data.currentPage <= data.totalPages - 1" :to="`/test?page=${page + 1}`"
+                    class="page-number">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                    </svg>
+                </NuxtLink>
+            </div>
+        </template>
+    </div>
 </template>
 
 <style scoped>

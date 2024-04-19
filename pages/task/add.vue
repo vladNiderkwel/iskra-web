@@ -98,14 +98,6 @@ const clear = () => {
 
     <template v-if="newTask.tasks.length > 0">
         <div v-for="t in newTask.tasks" class="task-card mx-auto my-2">
-
-            <a @click="deleteSection(t.id)" class="ml-auto w-fit h-fit button-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                    <path
-                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
-                </svg>
-            </a>
-
             <p class="font-bold mb-1 text-xl">Тип</p>
             <div class="flex mb-4">
                 <p v-if="t.type == 0" class="my-auto">Несколько возможных ответов</p>
@@ -116,12 +108,21 @@ const clear = () => {
             <p class="font-bold mb-1 text-xl">Вопрос</p>
             <p class="mb-4">{{ t.question }}</p>
 
-            <p v-if="t.type != 2" class="font-bold mb-1 text-xl">Возможные ответы</p>
-            <div v-if="t.type != 2">
-                <div v-for="opt in t.options" class="rounded-full option-show w-fit">
-                    <p class="my-auto">{{ opt.text }}</p>
-                </div>
-            </div>
+            <template v-if="t.type != 2">
+                <p class="font-bold mb-1 text-xl">Возможные ответы</p>
+                <template v-for="(opt, index) in t.options">
+                    <p class="w-full">{{ opt.text }}</p>
+
+                    <HorizontalDivider v-if="index < t.options.length - 1" class="my-2"/>
+                </template>
+            </template>
+
+            <a @click="deleteSection(t.id)" class="ml-auto w-fit h-fit button-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                    <path
+                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                </svg>
+            </a>
         </div>
 
         <a @click="openAddSectionMenu" class="mx-auto my-4 button-green-filled">
@@ -217,12 +218,16 @@ const clear = () => {
 @import "~/assets/css/Button.css";
 
 .task-card {
-    border-radius: 16px;
+    border-radius: 8px;
     padding: 16px;
     width: 50%;
     min-width: 500px;
+    transition: all 0.4s;
+    background: var(--iskra-color-surface-variant);
+}
 
-    background: var(--iskra-color-secondary-container);
+.task-card:hover {
+    border-radius: 36px;
 }
 
 .add-background {
@@ -242,11 +247,5 @@ const clear = () => {
 
 .add-menu .option p {
     max-width: 90%;
-}
-
-.option-show {
-    padding: 8px 16px;
-    background: var(--iskra-on-secondary-container);
-    color: var(--iskra-secondary-container);
 }
 </style>

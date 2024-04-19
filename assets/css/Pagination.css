@@ -1,0 +1,29 @@
+.page-number {
+    margin: 0 4px;
+    border-radius: 32px;
+    padding: 8px 16px;
+    border: solid var(--iskra-color-surface-variant) 1px;
+    transition: all 0.4s;
+
+    color: var(--iskra-color-on-surface);
+    fill: var(--iskra-color-on-surface);
+}
+
+.page-number:hover {
+    background: var(--iskra-color-surface-variant);
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.active-page, .active-page:hover {
+    background: var(--iskra-color-green);
+    color: var(--iskra-color-black);
+}
+
+.pages:first-child {
+    margin-left: 0;
+}
+
+.pages:last-child {
+    margin-right: 0;
+}

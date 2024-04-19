@@ -1,11 +1,16 @@
 <script setup>
 const config = useRuntimeConfig()
-const users = ref([])
-const isLoading = ref(true)
-const searchPrompt = ref("")
+const page = parseInt(useRoute().query.page)
 
-const { data: allUsers, error, pending, refresh } =
-  await useFetch(`${config.public.baseUrl}/user`, { method: 'get' })
+const { data, error, pending, refresh } =
+  await useFetch(`${config.public.baseUrl}/user`, {
+    method: 'get',
+    query: {
+      page: isNaN(page) ? 1 : page
+    }
+  })
+
+const searchPrompt = ref("")
 
 const clear = () => {
   searchPrompt.value = ""
@@ -57,18 +62,40 @@ search()
 
     <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
-    <template v-else v-for="(u, index) in allUsers">
-      <UserCard :user="u" />
-      <HorizontalDivider v-if="index < allUsers.length - 1" class="my-2" />
+    <template v-else>
+      <template v-for="(user, index) in data.content">
+        <UserCard :user="user" />
+        <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
+      </template>
+
+      <div class="flex mt-4 justify-center items-center pages" v-if="data.totalPages > 1">
+        <NuxtLink v-if="data.currentPage >= 2" :to="`/user?page=${page - 1}`" class="page-number">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+            <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+          </svg>
+        </NuxtLink>
+
+        <NuxtLink class="page-number" v-for="page in data.totalPages"
+          :class="{ 'active-page': page === data.currentPage }" :to="`/user?page=${page}`">
+          <p>{{ page }}</p>
+        </NuxtLink>
+
+        <NuxtLink v-if="data.currentPage <= data.totalPages - 1" :to="`/user?page=${page + 1}`" class="page-number">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+            <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+          </svg>
+        </NuxtLink>
+      </div>
     </template>
   </div>
-  
+
 </template>
 
 <style scoped>
 @import '~/assets/css/Titles.css';
 @import '~/assets/css/Button.css';
 @import '~/assets/css/Search.css';
+@import '~/assets/css/Pagination.css';
 
 table {
   width: 100%;

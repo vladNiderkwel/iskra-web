@@ -62,8 +62,8 @@
 
     <div class="flex">
       <p class="font-bold text-xl my-auto">Карта</p>
-      <a @click="navigateTo('/question')" class="w-fit h-fit button-green-tonal ml-auto">
-        <p>Все</p>
+      <a @click="navigateTo('/map')" class="w-fit h-fit button-green-tonal ml-auto">
+        <p>Карта</p>
       </a>
     </div>
   </div>
