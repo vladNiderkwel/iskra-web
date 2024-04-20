@@ -27,7 +27,7 @@ const { pending, data: services, error, refresh } =
         <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
         <template v-else v-for="(s, index) in services">
-            <ServiceCard :service="s" />
+            <ServiceCard :service="s" :refresh="refresh"/>
             <HorizontalDivider v-if="index < services.length - 1" class="my-2" />
         </template>
     </div>

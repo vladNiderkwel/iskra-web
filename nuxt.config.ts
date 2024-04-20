@@ -30,4 +30,13 @@ export default defineNuxtConfig({
       baseUrl: process.env.API_URL
     }
   },
+
+  vite:{      
+    vue: {
+        script: {
+            defineModel: true,
+            propsDestructure: true                 
+        }
+    }
+  }
 })

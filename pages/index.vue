@@ -1,9 +1,10 @@
 <template>
   <div class="mx-auto menu mt-auto mb-auto">
+
     <div class="flex">
-      <p class="font-bold text-xl my-auto">Сервисы</p>
-      <a @click="navigateTo('/service')" class="w-fit h-fit button-green-tonal ml-auto">
-        <p>Все</p>
+      <p class="font-bold text-xl my-auto">Карта</p>
+      <a @click="navigateTo('/map')" class="w-fit h-fit button-green-tonal ml-auto">
+        <p>Карта</p>
       </a>
     </div>
 
@@ -24,15 +25,6 @@
     <div class="flex">
       <p class="font-bold text-xl my-auto">Мероприятия</p>
       <a @click="navigateTo('/event')" class="w-fit h-fit button-green-tonal ml-auto">
-        <p>Все</p>
-      </a>
-    </div>
-
-    <HorizontalDivider class="my-4" />
-
-    <div class="flex">
-      <p class="font-bold text-xl my-auto">Пользователи</p>
-      <a @click="navigateTo('/user')" class="w-fit h-fit button-green-tonal ml-auto">
         <p>Все</p>
       </a>
     </div>
@@ -61,11 +53,21 @@
     <HorizontalDivider class="my-4" />
 
     <div class="flex">
-      <p class="font-bold text-xl my-auto">Карта</p>
-      <a @click="navigateTo('/map')" class="w-fit h-fit button-green-tonal ml-auto">
-        <p>Карта</p>
+      <p class="font-bold text-xl my-auto">Сервисы</p>
+      <a @click="navigateTo('/service')" class="w-fit h-fit button-green-tonal ml-auto">
+        <p>Все</p>
       </a>
     </div>
+    
+    <HorizontalDivider class="my-4" />
+
+    <div class="flex">
+      <p class="font-bold text-xl my-auto">Пользователи</p>
+      <a @click="navigateTo('/user')" class="w-fit h-fit button-green-tonal ml-auto">
+        <p>Все</p>
+      </a>
+    </div>
+
   </div>
 </template>
 

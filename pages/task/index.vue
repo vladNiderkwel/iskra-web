@@ -1,14 +1,26 @@
 <script setup>
 const config = useRuntimeConfig()
-const page = parseInt(useRoute().query.page)
+const page = ref(useRoute().query.page ? useRoute().query.page : 1)
+const query = ref("")
 
-const { data, error, pending, refresh } =
-    await useFetch(`${config.public.baseUrl}/test`, {
+const { data, error, pending, refresh } = await useAsyncData("alltasks",
+    () => $fetch(`${config.public.baseUrl}/test`, {
         method: 'get',
         query: {
-            page: isNaN(page) ? 1 : page
+            page: page.value - 1,
+            //search: query
         }
     })
+)
+
+watch(page, () => refresh())
+
+const clear = () => {
+    query.value = ""
+    search()
+}
+
+const search = () => refresh()
 </script>
 
 <template>
@@ -30,12 +42,24 @@ const { data, error, pending, refresh } =
         </div>
     </div>
 
-    <NuxtLink to="/task/add" class="mx-auto my-4 button-green-tonal">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-        </svg>
-        <p class="ml-3">Добавить</p>
-    </NuxtLink>
+    <div class="flex my-4">
+        <a @click="refresh()" class="mx-auto button-green-tonal">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                <path
+                    d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
+            </svg>
+            <p class="ml-3">Обновить</p>
+        </a>
+
+        <NuxtLink to="/task/add" class="mx-auto button-green-filled">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+            </svg>
+            <p class="ml-3">Добавить</p>
+        </NuxtLink>
+    </div>
+
+
 
     <div class="w-min mx-auto">
         <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
@@ -48,25 +72,7 @@ const { data, error, pending, refresh } =
                 <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
             </template>
 
-            <div class="flex mt-4 justify-center items-center pages" v-if="data.totalPages > 1">
-                <NuxtLink v-if="data.currentPage >= 2" :to="`/task?page=${data.currentPage - 1}`" class="page-number">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                        <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-                    </svg>
-                </NuxtLink>
-
-                <NuxtLink class="page-number" v-for="pg in data.totalPages"
-                    :class="{ 'active-page': pg === data.currentPage }" :to="`/task?page=${pg}`">
-                    <p>{{ pg }}</p>
-                </NuxtLink>
-
-                <NuxtLink v-if="data.currentPage <= data.totalPages - 1" :to="`/task?page=${data.currentPage + 1}`"
-                    class="page-number">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                        <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
-                    </svg>
-                </NuxtLink>
-            </div>
+            <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
         </template>
     </div>
 </template>

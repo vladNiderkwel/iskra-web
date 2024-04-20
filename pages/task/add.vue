@@ -38,12 +38,19 @@ const newSection = ref(
     }
 )
 
-const optionText = ref("")
+const option = ref({
+    text: "",
+    isAnswer: false
+})
 
 const addSection = () => {
+    let q = newSection.value.question.trim()
+
+    if (q.length === 0 || ( newSection.value.options.length == 0 && newSection.value.type != 2) ) return;
+
     newTask.value.tasks.push({
-        id: Math.ceil(Math.random() * 100000),
-        question: newSection.value.question,
+        id: Math.ceil(Math.random() * 1000000),
+        question: q,
         type: newSection.value.type,
         options: newSection.value.options,
     })
@@ -51,6 +58,8 @@ const addSection = () => {
     newSection.value.question = ""
     newSection.value.type = 0
     newSection.value.options = []
+
+    closeAddSectionMenu()
 }
 
 const deleteSection = (sectionId) => {
@@ -59,19 +68,20 @@ const deleteSection = (sectionId) => {
 }
 
 const addOption = () => {
-
-    let str = optionText.value.trim()
+    let str = option.value.text.trim()
 
     if (str.trim().length === 0) return;
 
     newSection.value.options.push(
         {
-            id: Math.ceil(Math.random() * 100000),
-            text: str
+            id: Math.ceil(Math.random() * 1000000),
+            text: str,
+            isAnswer: option.value.isAnswer
         }
     )
 
-    optionText.value = ""
+    option.value.text = ""
+    option.value.isAnswer = false
 }
 
 const deleteOption = (optionId) => {
@@ -80,7 +90,8 @@ const deleteOption = (optionId) => {
 }
 
 const clear = () => {
-    optionText.value = ""
+    option.value.text = ""
+    option.value.isAnswer = false
     newSection.value.options = []
 }
 
@@ -113,7 +124,7 @@ const clear = () => {
                 <template v-for="(opt, index) in t.options">
                     <p class="w-full">{{ opt.text }}</p>
 
-                    <HorizontalDivider v-if="index < t.options.length - 1" class="my-2"/>
+                    <HorizontalDivider v-if="index < t.options.length - 1" class="my-2" />
                 </template>
             </template>
 
@@ -172,7 +183,11 @@ const clear = () => {
             <p v-if="newSection.type != 2" class="font-bold mb-1 text-2xl">Возможные ответы</p>
 
             <div v-if="newSection.type != 2" class="flex mb-4">
-                <input type="text" v-model="optionText" class="w-full mr-4 text-input" placeholder="Пример ответа" />
+                <input type="text" v-model="option.text" class="w-full text-input" placeholder="Пример ответа" />
+                <label class="chip ml-2 mr-5 my-auto">
+                    <input type="checkbox" v-model="option.isAnswer" id="is-answer-check" class="appearance-none">
+                    <span>Ответ</span>
+                </label>
                 <a @click="addOption" class="w-fit h-fit button-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
@@ -183,6 +198,7 @@ const clear = () => {
             <template v-for="(opt, index) in newSection.options">
                 <div class="flex option max-w-full">
                     <p class="my-auto mr-auto break-words">{{ opt.text }}</p>
+                    <p v-if="opt.isAnswer" class="my-auto mr-auto break-words">это ответ</p>
                     <a @click="deleteOption(opt.id)" class="ml-auto my-auto w-fit h-fit button-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                             <path
@@ -201,7 +217,7 @@ const clear = () => {
                     <p class="ml-3">Назад</p>
                 </a>
 
-                <a @click="addSection(); closeAddSectionMenu();" class="w-fit h-fit button-green-tonal">
+                <a @click="addSection()" class="w-fit h-fit button-green-tonal">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                     </svg>
@@ -247,5 +263,25 @@ const clear = () => {
 
 .add-menu .option p {
     max-width: 90%;
+}
+
+.chip span {
+    padding: 8px 16px;
+    border-radius: 32px;
+    border: solid var(--iskra-color-outline) 1px;
+    background: var(--iskra-color-surface);
+    transition: all 0.2s;
+}
+
+.chip span:hover {
+    cursor: pointer;
+    background: var(--iskra-color-surface-variant);
+}
+
+.chip #is-answer-check:checked+span {
+    width: full;
+    height: full;
+    border: solid var(--iskra-color-green) 1px;
+    background: var(--iskra-color-green);
 }
 </style>

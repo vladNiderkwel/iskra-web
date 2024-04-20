@@ -1,15 +1,29 @@
 <script setup>
-const config = useRuntimeConfig()
-const page = parseInt(useRoute().query.page)
 
-const { data, error, pending, refresh } =
-  await useFetch(`${config.public.baseUrl}/event`, {
+const config = useRuntimeConfig()
+const page = ref(useRoute().query.page ? useRoute().query.page : 1)
+const query = ref("")
+
+const { data, error, pending, refresh } = await useAsyncData( "allevents",
+  () => $fetch(`${config.public.baseUrl}/event`, {
     method: 'get',
     query: {
-      page: isNaN(page) ? 1 : page
+      page: page.value - 1,
+      //search: query
     }
   })
+)
 
+watch(page, () => refresh() )
+
+const clear = () => {
+  query.value = ""
+  search()
+}
+
+const search = () => refresh()
+
+/*
 const events = ref([
   {
     id: 1,
@@ -39,7 +53,7 @@ const events = ref([
     ]
   }
 ])
-
+*/
 </script>
 
 <template>
@@ -85,24 +99,8 @@ const events = ref([
         <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
       </template>
 
-      <div class="flex mt-4 justify-center items-center pages" v-if="data.totalPages > 1">
-        <NuxtLink v-if="data.currentPage >= 2" :to="`/event?page=${page - 1}`" class="page-number">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-          </svg>
-        </NuxtLink>
-
-        <NuxtLink class="page-number" v-for="page in data.totalPages"
-          :class="{ 'active-page': page === data.currentPage }" :to="`/event?page=${page}`">
-          <p>{{ page }}</p>
-        </NuxtLink>
-
-        <NuxtLink v-if="data.currentPage <= data.totalPages - 1" :to="`/event?page=${page + 1}`" class="page-number">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
-          </svg>
-        </NuxtLink>
-      </div>
+      <Pagination v-if="data.totalPages > 1" class="mt-8"
+        v-model="page" :totalPages="data.totalPages" />
     </template>
   </div>
 </template>

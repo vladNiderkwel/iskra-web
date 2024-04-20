@@ -1,38 +1,28 @@
 <script setup>
-const config = useRuntimeConfig()
-const page = computed(() => useRoute().query.page)
-//computed(() => useRoute().query.page)
+import Pagination from '~/components/Pagination.vue';
 
-const { data, error, pending, refresh } =
-  await useFetch(`${config.public.baseUrl}/user`, {
+const config = useRuntimeConfig()
+const page = ref(useRoute().query.page ? useRoute().query.page : 1)
+const query = ref("")
+
+const { data, error, pending, refresh } = await useAsyncData( "allusers",
+  () => $fetch(`${config.public.baseUrl}/user`, {
     method: 'get',
     query: {
-      page: page.value - 1
+      page: page.value - 1,
+      //search: query
     }
   })
+)
 
-watch(page, (newPage) =>{
-  refresh()
-})
-
-const searchPrompt = ref("")
+watch(page, () => refresh() )
 
 const clear = () => {
-  searchPrompt.value = ""
+  query.value = ""
   search()
 }
-/*
-const searchUsers = ref("")
 
-const search = () => {
-  searchUsers.value = users.value.filter( usr =>
-    usr.name.toLowerCase().includes(searchPrompt.value.toLowerCase()) ||
-    usr.email.toLowerCase().includes(searchPrompt.value.toLowerCase())
-  )
-}
-
-search()
-*/
+const search = () => refresh()
 </script>
 
 <template>
@@ -72,7 +62,10 @@ search()
         <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
       </template>
 
-      <div class="flex mt-8 justify-center items-center pages" v-if="data.totalPages > 1">
+      <Pagination v-if="data.totalPages > 1"
+        class="mt-8" v-model="page" :totalPages="data.totalPages" />
+
+      <!--
         <NuxtLink v-if="data.currentPage + 1 >= 2"
           :to="`/user?page=${data.currentPage}`"
           class="page-number">
@@ -94,7 +87,7 @@ search()
             <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
           </svg>
         </NuxtLink>
-      </div>
+        -->
     </template>
   </div>
 
