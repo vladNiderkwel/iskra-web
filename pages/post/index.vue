@@ -3,21 +3,21 @@ const config = useRuntimeConfig()
 const page = ref(useRoute().query.page ? useRoute().query.page : 1)
 const query = ref("")
 
-const { data, error, pending, refresh } = await useAsyncData( "allposts",
-  () => $fetch(`${config.public.baseUrl}/post`, {
-    method: 'get',
-    query: {
-      page: page.value - 1,
-      //search: query
-    }
-  })
+const { data, error, pending, refresh } = await useAsyncData("allposts",
+    () => $fetch(`${config.public.baseUrl}/post`, {
+        method: 'get',
+        query: {
+            page: page.value - 1,
+            //search: query
+        }
+    })
 )
 
-watch(page, () => refresh() )
+watch(page, () => refresh())
 
 const clear = () => {
-  query.value = ""
-  search()
+    query.value = ""
+    search()
 }
 
 const search = () => refresh()
@@ -58,20 +58,18 @@ const posts = ref([
     </div>
 
     <div class="flex mt-4">
-        <a @click="refresh()" class="mx-auto  button-green-tonal">
+        <ButtonTonal text="Обновить" @click="refresh()" class="mx-auto">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                 <path
                     d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
             </svg>
-            <p class="ml-3">Обновить</p>
-        </a>
+        </ButtonTonal>
 
-        <NuxtLink to="/post/add" class="mx-auto button-green-filled">
+        <ButtonFilledPrimary text="Добавить" @click="navigateTo('/post/add')" class="mx-auto button-green-filled">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                 <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
             </svg>
-            <p class="ml-3">Добавить</p>
-        </NuxtLink>
+        </ButtonFilledPrimary>
     </div>
     <!--
     <div class="flex flex-col items-center">
@@ -79,19 +77,15 @@ const posts = ref([
     </div>
     -->
 
-    <div class="w-min mx-auto">
+    <div class="w-full">
         <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
 
         <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
         <template v-else>
-            <template v-for="(post, index) in data.content">
-                <PostCard :post="post" />
-                <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
-            </template>
+            <PostCard :post="post" v-for="post in data.content" class="my-3 mx-auto" />
 
-            <Pagination v-if="data.totalPages > 1" class="mt-8"
-                v-model="page" :totalPages="data.totalPages" />
+            <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
         </template>
     </div>
 
@@ -99,7 +93,6 @@ const posts = ref([
 
 <style scoped>
 @import '~/assets/css/Titles.css';
-@import '~/assets/css/Button.css';
 @import '~/assets/css/Search.css';
 @import '~/assets/css/Pagination.css';
 </style>

@@ -1,19 +1,46 @@
 <script setup>
+import axios from 'axios';
 import TiptapEditor from '~/components/TiptapEditor.vue'
 
-const content = ref("")
-const imgUrl = ref(null)
+const config = useRuntimeConfig()
+const title = ref("")
+const description = ref("")
+const body = ref("")
+const photo = ref({
+    file: null,
+    url: null
+})
 
-const addPost = () => {
-    console.log(content.value)
+const fetch = ref()
+
+const addPost = async () => {
+
+    if (
+        title.value.trim().length === 0 ||
+        description.value.trim().length === 0
+    ) return;
+
+    let form = new FormData()
+    form.append("photo", photo.value.file)
+    form.append("title", title.value)
+    form.append("description", description.value)
+    form.append("body", body.value)
+    form.append("publicationDate", new Date().toJSON())
+    form.append("author", 1)
+
+    axios
+        .post(
+            `${config.public.baseUrl}/post`, form,
+            {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }
+        )
 }
 
 const onFileChange = (e) => {
-    const file = e.target.files[0];
-    imgUrl.value = URL.createObjectURL(file);
-    console.log(imgUrl)
+    photo.value.file = e.target.files[0];
+    photo.value.url = URL.createObjectURL(e.target.files[0]);
 }
-
 </script>
 
 <template>
@@ -21,7 +48,10 @@ const onFileChange = (e) => {
 
     <div class="w-fit mx-auto">
         <p class="font-bold mb-1 text-2xl">Заголовок</p>
-        <input type="text" maxlength="255" placeholder="Заголовок" class="w-full mb-5 text-input" />
+        <input v-model="title" type="text" maxlength="255" placeholder="Заголовок" class="w-full mb-5 text-input" />
+
+        <p class="font-bold mb-1 text-2xl">Описание</p>
+        <textarea class="w-full mb-4 text-input max-h-52" maxlength="255" v-model="description"></textarea>
 
         <p class="font-bold mb-1 text-2xl">Баннер</p>
         <input type="file" id="file" @change="onFileChange" accept="image/png, image/jpg, image/jpeg" class="hidden" />
@@ -32,12 +62,14 @@ const onFileChange = (e) => {
             </svg>
             <p class="ml-3">Выбрать файл</p>
         </label>
-        <img class="w-full h-56 rounded-2xl mt-2 object-cover" v-if="imgUrl" :src="imgUrl">
+        <img class="w-full h-56 rounded-2xl mt-2 object-cover" v-if="photo.url" :src="photo.url">
 
         <p class="font-bold mb-1 mt-5 text-2xl">Содержимое</p>
-        <TiptapEditor v-model="content" class="mb-5" />
+        <TiptapEditor v-model="body" class="mb-5" />
 
-        <NuxtLink @click="addPost" class="button-green-filled ml-auto">Добавить</NuxtLink>
+        <ButtonFilledPrimary @click="addPost" text="Добавить" />
+
+        <p>{{ fetch }}</p>
     </div>
 </template>
 

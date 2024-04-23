@@ -1,4 +1,6 @@
 <script setup>
+import ButtonTonal from '~/components/ButtonTonal.vue';
+
 
 const isAddSectionMenuVisible = ref(false)
 const isAddTypeSelectMenuVisible = ref(false)
@@ -46,7 +48,7 @@ const option = ref({
 const addSection = () => {
     let q = newSection.value.question.trim()
 
-    if (q.length === 0 || ( newSection.value.options.length == 0 && newSection.value.type != 2) ) return;
+    if (q.length === 0 || (newSection.value.options.length == 0 && newSection.value.type != 2)) return;
 
     newTask.value.tasks.push({
         id: Math.ceil(Math.random() * 1000000),
@@ -121,8 +123,12 @@ const clear = () => {
 
             <template v-if="t.type != 2">
                 <p class="font-bold mb-1 text-xl">Возможные ответы</p>
+
                 <template v-for="(opt, index) in t.options">
-                    <p class="w-full">{{ opt.text }}</p>
+                    <div class="flex">
+                        <p class="w-fit my-auto">{{ opt.text }}</p>
+                        <p class="w-fit ml-2 rounded-2xl answer-badge">Ответ</p>
+                    </div>
 
                     <HorizontalDivider v-if="index < t.options.length - 1" class="my-2" />
                 </template>
@@ -170,59 +176,65 @@ const clear = () => {
         </div>
 
         <div v-if="isAddOptionsMenuVisible" class="block add-menu mx-auto my-auto rounded-2xl h-auto p-3">
-            <a @click="closeAddSectionMenu" class="ml-auto button-icon">
+            <ButtonIcon @click="closeAddSectionMenu" class="ml-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                     <path
                         d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                 </svg>
-            </a>
+            </ButtonIcon>
 
             <p class="font-bold mb-1 text-2xl">Вопрос</p>
             <textarea class="w-full mb-4 text-input" maxlength="255" v-model="newSection.question"></textarea>
 
-            <p v-if="newSection.type != 2" class="font-bold mb-1 text-2xl">Возможные ответы</p>
+            <template v-if="newSection.type != 2">
+                <p class="font-bold mb-1 text-2xl">Возможные ответы</p>
 
-            <div v-if="newSection.type != 2" class="flex mb-4">
-                <input type="text" v-model="option.text" class="w-full text-input" placeholder="Пример ответа" />
-                <label class="chip ml-2 mr-5 my-auto">
-                    <input type="checkbox" v-model="option.isAnswer" id="is-answer-check" class="appearance-none">
-                    <span>Ответ</span>
-                </label>
-                <a @click="addOption" class="w-fit h-fit button-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                    </svg>
-                </a>
-            </div>
+                <div class="flex mb-4">
+                    <input type="text" v-model="option.text" class="w-full text-input" placeholder="Пример ответа" />
+                    <label class="chip ml-2 mr-5 my-auto">
+                        <input type="checkbox" v-model="option.isAnswer" id="is-answer-check" class="appearance-none">
+                        <span>Ответ</span>
+                    </label>
+                    <ButtonIcon @click="addOption">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                        </svg>
+                    </ButtonIcon>
+                </div>
+            </template>
 
             <template v-for="(opt, index) in newSection.options">
                 <div class="flex option max-w-full">
                     <p class="my-auto mr-auto break-words">{{ opt.text }}</p>
                     <p v-if="opt.isAnswer" class="my-auto mr-auto break-words">это ответ</p>
-                    <a @click="deleteOption(opt.id)" class="ml-auto my-auto w-fit h-fit button-icon">
+                    <ButtonIcon @click="deleteOption(opt.id)" class="ml-auto my-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                             <path
                                 d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
                         </svg>
-                    </a>
+                    </ButtonIcon>
                 </div>
                 <HorizontalDivider v-if="index < newSection.options.length - 1" class="my-2" />
             </template>
 
             <div class="flex mt-8">
-                <a @click="openAddSectionMenu(); clear();" class="mr-auto w-fit h-fit button-pink-outline">
+                <ButtonIcon @click="deleteOption(opt.id)" class="ml-auto my-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path
+                            d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                    </svg>
+                </ButtonIcon>
+                <ButtonOutlineSecondary text="Назад" @click="openAddSectionMenu(); clear();" class="mr-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
                     </svg>
-                    <p class="ml-3">Назад</p>
-                </a>
+                </ButtonOutlineSecondary>
 
-                <a @click="addSection()" class="w-fit h-fit button-green-tonal">
+                <ButtonTonal text="Добавить" @click="addSection(); clear();" class="mr-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                         <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                     </svg>
-                    <p class="ml-3">Добавить</p>
-                </a>
+                </ButtonTonal>
             </div>
         </div>
     </div>
@@ -283,5 +295,11 @@ const clear = () => {
     height: full;
     border: solid var(--iskra-color-green) 1px;
     background: var(--iskra-color-green);
+}
+
+.answer-badge {
+    padding: 2px 8px;
+    background: var(--iskra-color-green);
+    color: var(--iskra-color-black);
 }
 </style>

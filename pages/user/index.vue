@@ -5,7 +5,7 @@ const config = useRuntimeConfig()
 const page = ref(useRoute().query.page ? useRoute().query.page : 1)
 const query = ref("")
 
-const { data, error, pending, refresh } = await useAsyncData( "allusers",
+const { data, error, pending, refresh } = await useAsyncData("allusers",
   () => $fetch(`${config.public.baseUrl}/user`, {
     method: 'get',
     query: {
@@ -15,7 +15,7 @@ const { data, error, pending, refresh } = await useAsyncData( "allusers",
   })
 )
 
-watch(page, () => refresh() )
+watch(page, () => refresh())
 
 const clear = () => {
   query.value = ""
@@ -43,13 +43,11 @@ const search = () => refresh()
     </div>
   </div>
 
-  <a @click="refresh()" class="mx-auto mt-4 button-green-tonal">
+  <ButtonTonal text="Обновить" @click="refresh()" class="mx-auto">
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-      <path
-        d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
+      <path d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
     </svg>
-    <p class="ml-3">Обновить</p>
-  </a>
+  </ButtonTonal>
 
   <div class="w-min mx-auto">
     <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
@@ -62,32 +60,7 @@ const search = () => refresh()
         <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
       </template>
 
-      <Pagination v-if="data.totalPages > 1"
-        class="mt-8" v-model="page" :totalPages="data.totalPages" />
-
-      <!--
-        <NuxtLink v-if="data.currentPage + 1 >= 2"
-          :to="`/user?page=${data.currentPage}`"
-          class="page-number">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-          </svg>
-        </NuxtLink>
-
-        <NuxtLink v-for="pg in data.totalPages" class="page-number"
-          :to="`/user?page=${pg}`" 
-          :class="{ 'active-page': pg == data.currentPage + 1 }">
-          <p>{{ pg }}</p>
-        </NuxtLink>
-
-        <NuxtLink v-if="data.currentPage + 1 <= data.totalPages - 1"
-          :to="`/user?page=${data.currentPage + 2}`"
-          class="page-number">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
-          </svg>
-        </NuxtLink>
-        -->
+      <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
     </template>
   </div>
 
@@ -95,7 +68,6 @@ const search = () => refresh()
 
 <style scoped>
 @import '~/assets/css/Titles.css';
-@import '~/assets/css/Button.css';
 @import '~/assets/css/Search.css';
 @import '~/assets/css/Pagination.css';
 

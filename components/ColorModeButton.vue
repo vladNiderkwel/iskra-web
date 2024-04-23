@@ -21,5 +21,23 @@ import { isDarkMode } from '~/utils/darkMode';
 </template>
 
 <style scoped>
-@import "~/assets/css/Button.css";
+a {
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    padding: 8px;
+    border-radius: 9999px;
+
+    transition: all 0.4s;
+
+    fill: var(--iskra-color-on-surface);
+    background: var(--iskra-color-surface);
+    border: solid var(--iskra-color-outline) 1px;
+}
+
+a:hover {
+    background: var(--iskra-color-outline);
+    fill: var(--iskra-color-surface);
+    cursor: pointer;
+}
 </style>

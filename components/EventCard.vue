@@ -40,6 +40,7 @@ const { event } = defineProps(['event'])
     background: var(--iskra-color-surface-variant);
     color: var(--iskra-color-on-surface-variant);
     fill: var(--iskra-color-on-surface-variant);
+    border: solid var(--iskra-color-outline) 1px;
 }
 
 .card:hover {
