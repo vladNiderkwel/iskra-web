@@ -1,10 +1,13 @@
 <script setup>
+definePageMeta({
+  layout: "nosidebar",
+});
+
 const email = ref('');
 const password = ref('');
 
 const login = async () => {
-  console.log(email.value)
-  console.log(password.value)
+  
   await navigateTo("/")
 }
 </script>

@@ -3,8 +3,6 @@ const emit = defineEmits(['click']);
 const { text } = defineProps(['text'])
 const slots = useSlots()
 const haveSVG = () => !!slots["default"]
-
-console.log(text)
 </script>
 
 <template>

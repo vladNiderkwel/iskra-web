@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
   build: {
@@ -7,17 +6,14 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-
     '@tailwindcss/typography',
-
     'vue-yandex-maps/nuxt',
-    
     ['@nuxtjs/google-fonts', {
       families: {
         PlayfairDisplay: [400, 500, 700],
         Rubik: [400, 500, 700],
       }
-    }]
+    }],
   ],
 
   yandexMaps: {
@@ -26,16 +22,20 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      baseUrl: process.env.API_URL
+      baseUrl: process.env.API_URL,
+      endpoints: {
+        signIn: { path: '/login', method: 'post' },
+        signOut: { path: '/logout', method: 'post' }
+      }
     }
   },
 
-  vite:{      
+  vite: {
     vue: {
-        script: {
-            defineModel: true,
-            propsDestructure: true                 
-        }
+      script: {
+        defineModel: true,
+        propsDestructure: true
+      }
     }
   },
 })
