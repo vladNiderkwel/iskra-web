@@ -4,6 +4,6 @@
 
 <style scoped>
     div {
-        background: var(--iskra-color-outline);
+        background: var(--iskra-color-surface-variant);
     }
 </style>

@@ -2,7 +2,9 @@
     <div class="flex w-full h-full">
         <NewNavigationRail />
         
-        <div class="w-full h-full max-h-full px-2 py-4 overflow-y-scroll">
+        <VerticalDivider />
+
+        <div class="w-full h-full max-h-full p-2 overflow-y-scroll">
             <slot />
         </div>
 

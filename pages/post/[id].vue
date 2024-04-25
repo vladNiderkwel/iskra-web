@@ -9,9 +9,24 @@ const { data, error, pending, refresh } = await useAsyncData(`post-${id}`,
     () => $fetch(`${config.public.baseUrl}/post/${id}`)
 )
 
-const deletePost = () => {
+const deleting = ref({
+    pending: false,
+    error: false,
+    status: null
+})
 
+const deletePost = async () => {
+    deleting.value = await useFetch(
+        `${config.public.baseUrl}/post/${id}`, {
+        method: "delete"
+    })
 }
+
+watch(deleting, (value) => {
+    if (value.status === "success") navigateTo("/post")
+})
+
+watch(data, (val) => console.log(data))
 
 </script>
 
@@ -26,13 +41,15 @@ const deletePost = () => {
 
     <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
 
-    <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
+    <ErrorLabel v-else-if="error || data === ''" class="mx-auto mt-4" />
 
     <div v-else class="mt-4">
         <img :src="`${config.public.baseUrl}/images/posts/${data.photoUrl}.jpg`"
             class="w-full object-cover h-60 mb-4 rounded-2xl">
 
-        <ButtonFilledSecondary text="Удалить" @click="deletePost()" class="ml-auto">
+        <LoadingIndicator v-if="deleting.pending" class="ml-auto my-auto !w-9 !h-9" />
+
+        <ButtonFilledSecondary v-else text="Удалить" @click="deletePost()" class="ml-auto">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                 <path
                     d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />

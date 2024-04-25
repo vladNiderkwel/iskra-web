@@ -1,9 +1,9 @@
 <template>
-    <div class="indicator"></div>
+    <div></div>
 </template>
 
 <style scoped>
-.indicator {
+div {
     border-width: 8px;
     border-style: solid;
     border-color: var(--iskra-color-secondary) var(--iskra-color-secondary) transparent transparent;
