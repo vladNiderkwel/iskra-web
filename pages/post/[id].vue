@@ -26,7 +26,7 @@ watch(deleting, (value) => {
     if (value.status === "success") navigateTo("/post")
 })
 
-watch(data, (val) => console.log(data))
+//watch(data, (val) => console.log(data))
 
 </script>
 

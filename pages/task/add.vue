@@ -13,7 +13,7 @@ const newTask = ref(
     }
 )
 
-const newSection = ref(
+const newSubtask = ref(
     {
         id: -1,
         question: "",
@@ -28,21 +28,29 @@ const option = ref({
 })
 
 const addSection = () => {
-    let q = newSection.value.question.trim()
+    if (newSubtask.value.options.length > 0) {
 
-    if (q.length === 0 || (newSection.value.options.length == 0 && newSection.value.type != 2)) return;
+        let ar = newSubtask.value.options.filter(opt => opt.isAnswer)
+
+        if (ar.length === 0) return;
+    }
+
+    let q = newSubtask.value.question.trim()
+
+    if (q.length === 0) return;
 
     newTask.value.tasks.push({
         id: Math.ceil(Math.random() * 1000000),
         question: q,
-        type: newSection.value.type,
-        options: newSection.value.options,
+        type: newSubtask.value.type,
+        options: newSubtask.value.options,
     })
 
-    newSection.value.question = ""
-    newSection.value.type = 2
-    newSection.value.options = []
+    newSubtask.value.question = ""
+    newSubtask.value.type = 2
+    newSubtask.value.options = []
 
+    clear()
     toggleAddingSectionMenu()
 }
 
@@ -56,7 +64,7 @@ const addOption = () => {
 
     if (str.trim().length === 0) return;
 
-    newSection.value.options.push(
+    newSubtask.value.options.push(
         {
             id: Math.ceil(Math.random() * 1000000),
             text: str,
@@ -69,37 +77,51 @@ const addOption = () => {
 }
 
 const deleteOption = (optionId) => {
-    newSection.value.options =
-        newSection.value.options.filter(opt => opt.id != optionId)
+    newSubtask.value.options =
+        newSubtask.value.options.filter(opt => opt.id != optionId)
 }
 
 const clear = () => {
     option.value.text = ""
     option.value.isAnswer = false
-    newSection.value.options = []
+    newSubtask.value.options = []
 }
 
-watch(() => newSection.value.options, (val) => {
+watch(() => newSubtask.value.options, (val) => {
     if (val.length < 1)
-        newSection.value.type = 2
+        newSubtask.value.type = 2
     else {
         let ar = val.filter(opt => opt.isAnswer)
 
-        if (ar.length === 1) newSection.value.type = 1
-        else if (ar.length > 1) newSection.value.type = 0
+        if (ar.length === 1) newSubtask.value.type = 1
+        else if (ar.length > 1) newSubtask.value.type = 0
     }
 }, { deep: true })
 
-const addTask = async () => {
+const config = useRuntimeConfig()
 
+const fetch = ref({
+    pending: false,
+    status: null,
+    error: false
+})
+
+const addTask = async () => {
+    fetch = await useFetch(`${config.public.baseUrl}/task`, {
+        method: "post",
+        body: {
+            subtasks: newTask.value.tasks,
+            available: true
+        }
+    })
 }
 
 </script>
 
 <template>
-    <p class="title">Добавление заданий</p>
+    <p class="title">Добавление задания</p>
 
-    <ButtonTonal @click="toggleAddingSectionMenu" text="Новое задание" class="mx-auto my-4">
+    <ButtonTonal @click="toggleAddingSectionMenu" text="Новое подзадание" class="mx-auto my-4">
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
             <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
         </svg>
@@ -155,18 +177,18 @@ const addTask = async () => {
                 </svg>
             </ButtonIcon>
 
-            <p v-if="newSection.type == 0" class="mb-2 text-center w-full text-xl">
+            <p v-if="newSubtask.type == 0" class="mb-2 text-center w-full text-xl">
                 Вопрос с несколькими возможными ответами
             </p>
-            <p v-if="newSection.type == 1" class="mb-2 text-center w-full text-xl">
+            <p v-if="newSubtask.type == 1" class="mb-2 text-center w-full text-xl">
                 Вопрос с единственным возможным ответом
             </p>
-            <p v-if="newSection.type == 2" class="mb-2 text-center w-full text-xl">
+            <p v-if="newSubtask.type == 2" class="mb-2 text-center w-full text-xl">
                 Вопрос со своим ответом
             </p>
 
             <p class="font-bold mb-1 text-2xl">Вопрос</p>
-            <textarea class="w-full mb-4 text-input" maxlength="255" v-model="newSection.question"></textarea>
+            <textarea class="w-full mb-4 text-input" maxlength="255" v-model="newSubtask.question"></textarea>
 
             <p class="font-bold mb-1 text-2xl">Возможные ответы</p>
 
@@ -184,7 +206,7 @@ const addTask = async () => {
                 </label>
             </div>
 
-            <template v-for="(opt, index) in newSection.options">
+            <template v-for="(opt, index) in newSubtask.options">
                 <div class="flex option max-w-full">
                     <p class="my-auto w-full mr-4 break-words">{{ opt.text }}</p>
                     <p v-if="opt.isAnswer" class="my-auto rounded-2xl mr-4 answer-badge">Ответ</p>
@@ -195,10 +217,10 @@ const addTask = async () => {
                         </svg>
                     </ButtonIcon>
                 </div>
-                <HorizontalDivider v-if="index < newSection.options.length - 1" class="my-3" />
+                <HorizontalDivider v-if="index < newSubtask.options.length - 1" class="my-3" />
             </template>
 
-            <ButtonFilledSecondary text="Добавить" @click="addSection(); clear();" class="mt-8 ml-auto">
+            <ButtonFilledSecondary text="Добавить" @click="addSection()" class="mt-8 ml-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                     <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                 </svg>

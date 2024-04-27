@@ -75,8 +75,7 @@ const questions = ref([
 
         <template v-else>
             <template v-for="(question, index) in data.content">
-                <PostCard :question="question" />
-                <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
+                <PostCard :question="question" class="my-3 mx-auto"/>
             </template>
 
             <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />

@@ -12,8 +12,21 @@ const question = ref(
     }
 )
 
-const saveAnswer = () => {
-    console.log(question.value.answer)
+const config = useRuntimeConfig()
+
+const fetch = ref({
+    pending: false,
+    status: null,
+    error: false
+})
+
+const saveAnswer = async () => {
+    fetch = await useFetch(`${config.public.baseUrl}/question`, {
+        method: "put",
+        body: {
+            question: question
+        }
+    })
 }
 
 const report = () => {
@@ -40,6 +53,10 @@ const report = () => {
                 <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
             </svg>
         </ButtonFilledPrimary>
+
+        <LoadingIndicator v-if="fetch.pending" />
+
+        <ErrorLabel v-else-if="fetch.error" />
     </div>
 </template>
 

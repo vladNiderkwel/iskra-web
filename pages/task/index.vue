@@ -4,7 +4,7 @@ const page = ref(useRoute().query.page ? useRoute().query.page : 1)
 const query = ref("")
 
 const { data, error, pending, refresh } = await useAsyncData("alltasks",
-    () => $fetch(`${config.public.baseUrl}/test`, {
+    () => $fetch(`${config.public.baseUrl}/task`, {
         method: 'get',
         query: {
             page: page.value - 1,
@@ -57,15 +57,14 @@ const search = () => refresh()
         </ButtonFilledPrimary>
     </div>
 
-    <div class="w-min mx-auto">
+    <div class="mx-auto">
         <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
 
         <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
         <template v-else>
-            <template v-for="(test, index) in data.content">
-                <!--<TaskCard :task="task" />-->
-                <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
+            <template v-for="task in data.content">
+                <TaskCard :task="task" class="my-3 mx-auto" v-if="task.available"/>
             </template>
 
             <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
