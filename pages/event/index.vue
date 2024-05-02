@@ -87,17 +87,13 @@ const events = ref([
   </div>
   -->
 
-  <div class="w-min mx-auto">
+  <div>
     <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
 
     <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
     <template v-else>
-      <template v-for="(event, index) in data.content">
-        <EventCard :event="event" />
-        <HorizontalDivider v-if="index < data.content.length - 1" class="my-2" />
-      </template>
-
+      <EventCard v-for="event in data.content" :event="event" class="my-2" />
       <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
     </template>
   </div>

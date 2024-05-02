@@ -9,6 +9,7 @@ const toggleAddingSectionMenu = () =>
 const newTask = ref(
     {
         id: -1,
+        title: "",
         tasks: []
     }
 )
@@ -110,6 +111,7 @@ const addTask = async () => {
     fetch = await useFetch(`${config.public.baseUrl}/task`, {
         method: "post",
         body: {
+            title: newTask.value.title,
             subtasks: newTask.value.tasks,
             available: true
         }
@@ -120,6 +122,12 @@ const addTask = async () => {
 
 <template>
     <p class="title">Добавление задания</p>
+
+    <div class="w-1/2 mx-auto">
+        <p class="font-bold my-2 text-2xl">Название</p>
+        <input v-model="newTask.title" type="text" maxlength="255" placeholder="Название"
+            class="w-full text-input" />
+    </div>
 
     <ButtonTonal @click="toggleAddingSectionMenu" text="Новое подзадание" class="mx-auto my-4">
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">

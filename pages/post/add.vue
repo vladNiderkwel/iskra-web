@@ -28,13 +28,18 @@ const addPost = async () => {
     form.append("publicationDate", new Date().toJSON())
     form.append("author", 1)
 
-    axios
-        .post(
-            `${config.public.baseUrl}/post`, form,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            }
-        )
+    axios.post(
+        `${config.public.baseUrl}/post`, form,
+        {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        }
+    )
+
+    title.value = ""
+    description.value = ""
+    body.value = ""
+    photo.value.file = null
+    photo.value.url = null
 }
 
 const onFileChange = (e) => {
