@@ -7,8 +7,6 @@ const { task } = defineProps(["task"])
     <div class="card" @click="navigateTo(`/task/${task.id}`)">
         <div class="flex w-full mb-2">
             <p class="w-full font-bold text-xl">{{ task.title }}</p>
-            <p v-if="task.available" class="available-badge ml-2 rounded-2xl">Доступно</p>
-            <p v-else class="unavailable-badge ml-2 rounded-2xl">Недоступно</p>
         </div>
         <template v-for="(subtask, index) in task.subtasks">
             <p v-if="subtask.type === 2" class="italic">Свой ответ</p>

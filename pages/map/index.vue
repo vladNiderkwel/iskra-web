@@ -131,6 +131,9 @@ const mapClick = (object, event) => {
           <option value="1">Одежда</option>
           <option value="2">Батарейки</option>
           <option value="3">Металлолом</option>
+          <option value="4">Стекло</option>
+          <option value="5">Вторсырье</option>
+          <option value="6">Пластик</option>
         </select>
 
         <ButtonFilledPrimary text="Добавить" @click="addMark" class="mt-2 ml-auto">
@@ -162,10 +165,10 @@ const mapClick = (object, event) => {
                     {{ mark.name }}
                   </p>
 
-                  <p v-if="mark.type === 0" class="h-fit my-auto mt-2 italic">Общий</p>
-                  <p v-if="mark.type === 1" class="h-fit my-auto mt-2 italic">Одежда</p>
-                  <p v-if="mark.type === 2" class="h-fit my-auto mt-2 italic">Батарейки</p>
-                  <p v-if="mark.type === 3" class="h-fit my-auto mt-2 italic">Металлолом</p>
+                  <p v-if="mark.type === 0" class="h-fit my-auto italic">Общий</p>
+                  <p v-if="mark.type === 1" class="h-fit my-auto italic">Одежда</p>
+                  <p v-if="mark.type === 2" class="h-fit my-auto italic">Батарейки</p>
+                  <p v-if="mark.type === 3" class="h-fit my-auto italic">Металлолом</p>
 
                   <div class="flex mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"

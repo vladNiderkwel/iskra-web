@@ -12,10 +12,7 @@ const deleting = ref({
 })
 
 const deleteTask = async () => {
-    deleting.value = await useFetch(
-        `${config.public.baseUrl}/task/${id}`, {
-        method: "delete"
-    })
+    deleting.value = await useFetch(`${config.public.baseUrl}/task/delete/${id}`)
 }
 
 watch(deleting, (value) => {
@@ -33,28 +30,31 @@ watch(deleting, (value) => {
 
     <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
 
-    <ErrorLabel v-else-if="error || data === ''" class="mx-auto mt-4" />
+    <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
     <div v-else class="mt-4">
-        <ErrorLabel v-if="!data.available" message="Задание было удалено" class="mx-auto"/>
-        <template v-else v-for="subtask in data.subtasks">
-            <div class="card mx-auto my-3">
-                <p class="font-bold text-xl">Вопрос</p>
-                <p>{{ subtask.question }}</p>
+        <ErrorLabel v-if="!data.available" message="Задание было удалено" class="mx-auto" />
+        <template v-else>
+            <p class="text-2xl font-bold text-center">{{ data.title }}</p>
+            <template v-for="subtask in data.subtasks">
+                <div class="card mx-auto my-3">
+                    <p class="font-bold text-xl">Вопрос</p>
+                    <p>{{ subtask.question }}</p>
 
-                <template v-if="subtask.type != 2">
-                    <p class="font-bold mt-3 text-xl">Варианты ответов</p>
+                    <template v-if="subtask.type != 2">
+                        <p class="font-bold mt-3 text-xl">Варианты ответов</p>
 
-                    <template v-for="(option, index) in subtask.options">
-                        <div class="flex w-full">
-                            <p>{{ option.text }}</p>
-                            <div v-if="option.isAnswer" class="chip ml-auto">Ответ</div>
-                        </div>
-                        <HorizontalDivider class="my-3" v-if="index < subtask.options.length" />
+                        <template v-for="(option, index) in subtask.options">
+                            <div class="flex w-full">
+                                <p>{{ option.text }}</p>
+                                <Badge text="Ответ" v-if="option.isAnswer" class="ml-auto" />
+                            </div>
+                            <HorizontalDivider class="my-3" v-if="index < subtask.options.length - 1" />
+                        </template>
                     </template>
-                </template>
-                
-            </div>
+
+                </div>
+            </template>
         </template>
 
         <ButtonFilledSecondary v-if="data.available" text="Удалить" @click="deleteTask()" class="mx-auto mt-4">
@@ -74,14 +74,8 @@ watch(deleting, (value) => {
     min-width: 500px;
     transition: all 0.4s;
     background: var(--iskra-color-surface-variant);
-}
-
-.chip {
-    border-radius: 32px;
-    height: fit-content;
-    width: fit-content;
-    padding: 2px 8px;
-    background: var(--iskra-color-green);
-    color: var(--iskra-color-black);
+    color: var(--iskra-color-on-surface-variant);
+    fill: var(--iskra-color-on-surface-variant);
+    border: solid var(--iskra-color-outline) 1px;
 }
 </style>

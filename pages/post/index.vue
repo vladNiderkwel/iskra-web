@@ -7,35 +7,25 @@ const { data, error, pending, refresh } = await useAsyncData("allposts",
     () => $fetch(`${config.public.baseUrl}/post`, {
         method: 'get',
         query: {
-            page: page.value - 1,
-            //search: query
+            page: page.value,
+            query: query.value
         }
     })
 )
 
 watch(page, () => refresh())
 
+watch(query, () => search())
+
 const clear = () => {
     query.value = ""
     search()
 }
 
-const search = () => refresh()
-/*
-const posts = ref([
-    {
-        id: -1,
-        title: "Как кормить крыс или о пользе синтезатора",
-        description: "Краткое описание может ну не очень краткое. Краткое описание может ну не очень краткое. Краткое описание может ну не очень краткое. Краткое описание может ну не очень краткое. Краткое описание может ну не очень краткое.",
-        body: "дддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддддд",
-        photoUrl: "/",
-        publicationDate: "01.01.2000",
-        author: {
-            name: "Колька"
-        }
-    }
-])
-*/
+const search = () => {
+    page.value = 1
+    refresh()
+}
 </script>
 
 <template>
@@ -48,7 +38,7 @@ const posts = ref([
                     d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
             </svg>
         </div>
-        <input type="text" class="mx-1" v-model="searchPrompt" placeholder="Поиск" />
+        <input type="text" class="mx-1" v-model="query" placeholder="Поиск" />
         <div class="icon" @click.prevent="clear">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                 <path
@@ -71,11 +61,6 @@ const posts = ref([
             </svg>
         </ButtonFilledPrimary>
     </div>
-    <!--
-    <div class="flex flex-col items-center">
-        <PostCard v-for="p in posts" :post="p" class="my-2" />
-    </div>
-    -->
 
     <div class="w-full">
         <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
@@ -83,12 +68,16 @@ const posts = ref([
         <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
         <template v-else>
-            <PostCard :post="post" v-for="post in data.content" class="my-3 mx-auto" />
-
-            <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
+            <p v-if="data.content.length === 0 && query.length > 0" class="text-center mt-2">
+                По запросу "{{ query }}" ничего не нашлось
+            </p>
+            
+            <template v-else>
+                <PostCard :post="post" v-for="post in data.content" class="my-3 mx-auto" />
+                <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
+            </template>
         </template>
     </div>
-
 </template>
 
 <style scoped>

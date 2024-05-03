@@ -9,7 +9,8 @@
 
     <div class="flex">
       <p class="font-bold text-xl my-auto">Задания</p>
-      <ButtonTonal text="Создать" @click="navigateTo('/task/add')" class="w-fit h-fit ml-auto" />
+      <ButtonTonal text="Проверить" @click="navigateTo('/task/check')" class="w-fit h-fit ml-auto" />
+      <ButtonTonal text="Создать" @click="navigateTo('/task/add')" class="w-fit h-fit ml-3" />
       <ButtonTonal text="Все" @click="navigateTo('/task')" class="w-fit h-fit ml-3" />
     </div>
 
