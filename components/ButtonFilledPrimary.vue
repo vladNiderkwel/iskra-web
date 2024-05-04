@@ -8,7 +8,7 @@ const haveSVG = () => !!slots["default"]
 <template>
     <a @click="emit('click')">
         <slot></slot>
-        <p :class="{ 'ml-3': haveSVG() }" >{{ text }}</p>
+        <p :class="{ 'ml-3': haveSVG() }">{{ text }}</p>
     </a>
 </template>
 

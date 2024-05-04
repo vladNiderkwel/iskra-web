@@ -1,6 +1,9 @@
 <script setup>
 
+const staffRole = useCookie('staffRole')
+
 const logout = async () => {
+    staffRole.value = -1
     navigateTo("/login")
 }
 </script>
@@ -69,7 +72,7 @@ const logout = async () => {
             </NuxtLink>
             <p class="w-fit mx-auto">Сервисы</p>
         </li>
-        <li class="mt-2">
+        <li class="mt-2" v-if="staffRole == 1">
             <NuxtLink class="mx-auto w-fit" to="/user">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                     <path

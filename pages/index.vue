@@ -1,3 +1,7 @@
+<script setup>
+const staffRole = useCookie('staffRole')
+</script>
+
 <template>
   <div class="menu my-auto h-fit">
     <div class="flex mt-auto">
@@ -43,11 +47,12 @@
       <ButtonTonal text="Все" @click="navigateTo('/service')" class="w-fit h-fit ml-auto" />
     </div>
     
-    <HorizontalDivider class="my-4" />
+    <HorizontalDivider class="my-4" v-if="staffRole == '1'" />
 
-    <div class="flex">
+    <div class="flex" v-if="staffRole == '1'">
       <p class="font-bold text-xl my-auto">Пользователи</p>
-      <ButtonTonal text="Все" @click="navigateTo('/user')" class="w-fit h-fit ml-auto" />
+      <ButtonTonal text="Сотрудники" @click="navigateTo('/user/staff')" class="w-fit h-fit ml-auto" />
+      <ButtonTonal text="Все" @click="navigateTo('/user')" class="w-fit h-fit ml-3" />
     </div>
   </div>
 </template>

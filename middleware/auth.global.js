@@ -1,9 +1,37 @@
 const loginRoute = "/login"
 
+const tutorAllowed = [
+    "/",
+    "/events",
+    "/map",
+    "/post",
+    "/question",
+    "/task",
+]
+
+const adminAllowed = [
+    "/user",
+    "/service",
+]
+
 export default defineNuxtRouteMiddleware((to, from) => {
-    const config = useRuntimeConfig()
+    //const config = useRuntimeConfig()
+    const staffRole = useCookie('staffRole')
 
-    //if (to.path !== loginRoute) return navigateTo(loginRoute);
+    const paths = to.path.split("/").filter(p => p)
+    let route = "/"
 
-    
+    if (paths.length > 0) route += paths[0]
+
+    if (tutorAllowed.includes(route)) {
+        if (staffRole.value == 0 || staffRole.value == 1) return
+    }
+    else if (adminAllowed.includes(route)) {
+        if (staffRole.value == 1) return
+    }
+    else if (route == loginRoute) {
+        return
+    }
+
+    return navigateTo(loginRoute);
 })
