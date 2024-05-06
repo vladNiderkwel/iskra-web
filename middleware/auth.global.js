@@ -20,7 +20,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     const paths = to.path.split("/").filter(p => p)
     let route = "/"
-
+/*
     if (paths.length > 0) route += paths[0]
 
     if (tutorAllowed.includes(route)) {
@@ -34,4 +34,5 @@ export default defineNuxtRouteMiddleware((to, from) => {
     }
 
     return navigateTo(loginRoute);
+    */
 })

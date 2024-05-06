@@ -10,6 +10,7 @@ const newTask = ref(
     {
         id: -1,
         title: "",
+        reward: 0,
         tasks: []
     }
 )
@@ -108,25 +109,40 @@ const fetch = ref({
 })
 
 const addTask = async () => {
-    fetch = await useFetch(`${config.public.baseUrl}/task`, {
+    console.log(newTask.value.reward)
+
+    await useFetch(`${config.public.baseUrl}/task`, {
         method: "post",
         body: {
             title: newTask.value.title,
             subtasks: newTask.value.tasks,
-            available: true
+            available: true,
+            reward: newTask.value.reward
         }
     })
 }
+
+watch(newTask.value.reward, (val) => {
+    if (value > 1000) result.value = 1000
+    if (value < 0) result.value = 0
+}, { deep: true })
 
 </script>
 
 <template>
     <p class="title">Добавление задания</p>
 
-    <div class="w-1/2 mx-auto">
+    <div class="w-1/2 mx-auto mt-4">
         <p class="font-bold my-2 text-2xl">Название</p>
-        <input v-model="newTask.title" type="text" maxlength="255" placeholder="Название"
-            class="w-full text-input" />
+        <input v-model="newTask.title" type="text" maxlength="255" placeholder="Название" class="w-full text-input" />
+    </div>
+
+    <div class="w-1/2 mx-auto mt-4">
+        <p class="font-bold my-2 text-2xl">Вознаграждение</p>
+        <div class="flex">
+            <input type="number" min="0" max="1000" v-model="newTask.reward" class="text-input" />
+            <p class="ml-2 my-auto">опыта</p>
+        </div>
     </div>
 
     <ButtonTonal @click="toggleAddingSectionMenu" text="Новое подзадание" class="mx-auto my-4">

@@ -8,7 +8,7 @@ const description = ref("")
 const body = ref("")
 const photo = ref({
     file: null,
-    url: null
+    url: `${config.public.baseUrl}/images/posts/post_placeholder.jpg`
 })
 
 const fetch = ref()
@@ -21,7 +21,7 @@ const addPost = async () => {
     ) return;
 
     let form = new FormData()
-    form.append("photo", photo.value.file)
+    if (photo.value.file != null) form.append("photo", photo.value.file)
     form.append("title", title.value)
     form.append("description", description.value)
     form.append("body", body.value)
@@ -39,7 +39,7 @@ const addPost = async () => {
     description.value = ""
     body.value = ""
     photo.value.file = null
-    photo.value.url = null
+    photo.value.url = `${config.public.baseUrl}/images/posts/post_placeholder.jpg`
 }
 
 const onFileChange = (e) => {

@@ -2,7 +2,7 @@
 const config = useRuntimeConfig()
 
 const { data, error, pending, refresh } = await useAsyncData(`user-tasks`,
-    () => $fetch(`${config.public.baseUrl}/user-task/`)
+    () => $fetch(`${config.public.baseUrl}/user-task/waiting`)
 )
 </script>
 

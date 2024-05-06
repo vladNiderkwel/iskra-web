@@ -58,8 +58,14 @@ const search = () => {
     <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
     <template v-else>
-      <EventCard v-for="event in data.content" :event="event" class="my-2" />
-      <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
+
+      <p v-if="data.content.length === 0 && query.length > 0" class="text-center mt-2">
+        По запросу "{{ query }}" ничего не нашлось
+      </p>
+      <template v-else>
+        <EventCard v-for="event in data.content" :event="event" class="my-2" />
+        <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
+      </template>
     </template>
   </div>
 </template>

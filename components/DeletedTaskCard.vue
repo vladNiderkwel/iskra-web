@@ -30,6 +30,6 @@ const { task } = defineProps(["task"])
     width: fit-content;
     padding: 2px 8px;
     background: var(--iskra-color-error);
-    color: white;
+    color: var(--iskra-color-surface);
 }
 </style>

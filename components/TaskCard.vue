@@ -5,14 +5,15 @@ const { task } = defineProps(["task"])
 
 <template>
     <div class="card" @click="navigateTo(`/task/${task.id}`)">
-        <div class="flex w-full mb-2">
-            <p class="w-full font-bold text-xl">{{ task.title }}</p>
-        </div>
+        <p class="w-full font-bold text-xl">{{ task.title }}</p>
+
+        <p class="w-full text-base">{{ task.reward }} опыта</p>
+
         <template v-for="(subtask, index) in task.subtasks">
-            <p v-if="subtask.type === 2" class="italic">Свой ответ</p>
-            <p v-if="subtask.type === 1" class="italic">Один ответ</p>
-            <p v-if="subtask.type === 0" class="italic">Несколько ответов</p>
-            <p class="mt-2">{{ subtask.question }}</p>
+            <p v-if="subtask.type === 2" class="italic mt-3">Свой ответ</p>
+            <p v-if="subtask.type === 1" class="italic mt-3">Один ответ</p>
+            <p v-if="subtask.type === 0" class="italic mt-3">Несколько ответов</p>
+            <p class="mt-1">{{ subtask.question }}</p>
             <HorizontalDivider class="my-2" v-if="index < task.subtasks.length - 1"/>
         </template>
     </div>

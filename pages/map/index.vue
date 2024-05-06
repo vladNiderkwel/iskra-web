@@ -32,22 +32,7 @@ const RESTRICTED_AREA = [
   [45.80383655875106, 51.345952973719115],
   [46.34325486671529, 51.662299423887255]
 ]
-/*
-const marks = ref([
-  {
-    id: "0",
-    description: "СГТУ, сбор батареек",
-    coordinates: [45.97849885721107, 51.52972247772132],
-    color: '#00CC00'
-  },
-  {
-    id: "1",
-    description: "Вторматик, пункт приёма вторсырья",
-    coordinates: [46.09361339014668, 51.497188173983815],
-    color: '#00CC00'
-  }
-])
-*/
+
 const pointerMark = ref({
   id: "-1",
   coordinates: [46.069720, 51.518725],
@@ -77,10 +62,6 @@ const addMark = async () => {
 const deleteMark = async (id) => {
   await useFetch(`${config.public.baseUrl}/map-mark/delete/${id}`)
   refresh()
-}
-
-const focusOnMark = (id) => {
-
 }
 
 watch(isDarkMode, (isDark) => {
@@ -154,7 +135,7 @@ const mapClick = (object, event) => {
           </svg>
         </ButtonTonal>
 
-        <LoadingIndicator v-if="pending" class="mx-auto mt-2"/>
+        <LoadingIndicator v-if="pending" class="mx-auto mt-2" />
         <ErrorLabel v-else-if="error" />
         <div v-else class="mt-2 all-marks max-h-full">
           <template v-for="(mark, index) in data">
@@ -181,15 +162,6 @@ const mapClick = (object, event) => {
                 </div>
 
                 <div class="flex ml-auto">
-                  <!--
-                  <ButtonIcon @click="focusOnMark(mark.id)" class="ml-auto my-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                      <path
-                        d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
-                    </svg>
-                  </ButtonIcon>
-                  -->
-
                   <ButtonIcon @click="deleteMark(mark.id)" class="ml-3 my-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                       <path
@@ -223,7 +195,7 @@ const mapClick = (object, event) => {
           :settings="{
             coordinates: mark.coordinates,
             title: mark.name,
-            color: '#3c6a00',
+            color: '#CC0000',
           }" />
 
         <YandexMapDefaultMarker v-if="currentFoldId === 0" v-model="pointerMark" :key="pointerMark.id" :settings="{
@@ -232,18 +204,6 @@ const mapClick = (object, event) => {
           onDragMove,
         }" />
 
-        <!--
-        <YandexMapFeature :settings="{
-          geometry: {
-            type: 'Polygon',
-            coordinates: [bounds()],
-          },
-          style: {
-            stroke: [{ width: 8, color: '#CC0000' }],
-            fill: 'rgba(0, 0, 0, 0)',
-          },
-        }" />
--->
         <YandexMapControls :settings="{ position: 'top' }">
           <YandexMapControl>
             <div v-if="currentFoldId === 0" class="behaviors flex px-4 py-2">
@@ -257,9 +217,6 @@ const mapClick = (object, event) => {
             </div>
           </YandexMapControl>
         </YandexMapControls>
-
-        <!--<YandexMapListener :settings="{ onClick: mapClick }" />-->
-
       </YandexMap>
     </div>
 

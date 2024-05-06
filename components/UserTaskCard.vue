@@ -7,7 +7,8 @@ const { userTask } = defineProps(['userTask'])
         <p class="font-bold text-xl mt-2 w-full">{{ userTask.task.title }}</p>
 
         <div class="flex self-center mt-4 ml-auto w-fit">
-            <img class="ml-4 mr-2 w-6 h-6 rounded-full my-auto" src="~assets/images/photo_placeholder.png" />
+            <img v-if="user.photoUrl.length < 64" class="ml-4 mr-2 w-6 h-6 rounded-full my-auto" src="~assets/images/photo_placeholder.png"/>
+            <img v-else class="ml-4 mr-2 w-6 h-6 rounded-full my-auto" :src="`${config.public.baseUrl}/images/photos/${userTask.user.photoUrl}.jpg`"/>
             <p class="my-auto">{{ userTask.user.name }}</p>
         </div>
     </div>

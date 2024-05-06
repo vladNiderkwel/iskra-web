@@ -21,8 +21,8 @@ a {
     border-radius: 36px;
     outline: none;
     
-    color: var(--iskra-color-on-primary-container);
-    fill: var(--iskra-color-on-primary-container);
+    color: var(--iskra-color-on-surface-container);
+    fill: var(--iskra-color-on-surface-container);
     background: var(--iskra-color-surface-variant);
 
     transition: all 0.4s;

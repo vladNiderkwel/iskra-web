@@ -44,7 +44,8 @@ watch(deleting, (value) => {
     <ErrorLabel v-else-if="error || data === ''" class="mx-auto mt-4" />
 
     <div v-else class="mt-4">
-        <img :src="`${config.public.baseUrl}/images/posts/${data.photoUrl}.jpg`"
+        <img v-if="data.photoUrl.length < 64" src="~assets/images/pattern_2.png" class="w-full object-cover h-60 mb-4 rounded-2xl"/>
+        <img v-else :src="`${config.public.baseUrl}/images/posts/${data.photoUrl}.jpg`"
             class="w-full object-cover h-60 mb-4 rounded-2xl">
 
         <LoadingIndicator v-if="deleting.pending" class="ml-auto my-auto !w-9 !h-9" />
