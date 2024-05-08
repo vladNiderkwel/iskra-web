@@ -7,6 +7,7 @@ const tutorAllowed = [
     "/post",
     "/question",
     "/task",
+    "/stats"
 ]
 
 const adminAllowed = [
@@ -15,7 +16,6 @@ const adminAllowed = [
 ]
 
 export default defineNuxtRouteMiddleware((to, from) => {
-    //const config = useRuntimeConfig()
     const staffRole = useCookie('staffRole')
 
     const paths = to.path.split("/").filter(p => p)

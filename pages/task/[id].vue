@@ -38,6 +38,11 @@ watch(deleting, (value) => {
             <p class="text-2xl font-bold text-center">{{ data.title }}</p>
             <template v-for="subtask in data.subtasks">
                 <div class="card mx-auto my-3">
+
+                    <p v-if="subtask.type == 0" class="my-auto">Несколько ответов</p>
+                    <p v-else-if="subtask.type == 1" class="my-auto">Единственный ответ</p>
+                    <p v-else-if="subtask.type == 2" class="my-auto">Свой ответ</p>
+
                     <p class="font-bold text-xl">Вопрос</p>
                     <p>{{ subtask.question }}</p>
 

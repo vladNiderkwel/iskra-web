@@ -6,11 +6,9 @@ const { question } = defineProps(['question'])
 <template>
     <div @click="navigateTo(`/question/${question.id}`)" class="card">
 
-        <div class="flex self-center">
+        <div class="flex">
             <img class="mr-3 my-auto w-8 h-8 rounded-full" src="~assets/images/photo_placeholder.png" />
-            <NuxtLink to="/" class="author my-auto">{{ question.author.name }}</NuxtLink>
-
-            <p class="ml-auto my-auto">{{ getDateString(question.date) }}</p>
+            <p class="my-auto">{{ question.author.name }}</p>
         </div>
 
         <p class="mt-4 content">{{ question.question }}</p>
@@ -18,8 +16,6 @@ const { question } = defineProps(['question'])
 </template>
 
 <style scoped>
-@import '~/assets/css/Button.css';
-
 .card {
     width: 64%;
     min-width: 400px;

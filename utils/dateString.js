@@ -16,5 +16,5 @@ export const getDateString = (date) => {
 
     const dt = new Date(date)
 
-    return `${dt.getDay()} ${months[dt.getMonth()]} ${dt.getFullYear()}`
+    return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`
 }

@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios';
 import ButtonTonal from '~/components/ButtonTonal.vue';
 
 const isAddSectionMenuVisible = ref(false)
@@ -109,23 +110,28 @@ const fetch = ref({
 })
 
 const addTask = async () => {
-    console.log(newTask.value.reward)
 
-    await useFetch(`${config.public.baseUrl}/task`, {
-        method: "post",
-        body: {
-            title: newTask.value.title,
-            subtasks: newTask.value.tasks,
-            available: true,
-            reward: newTask.value.reward
-        }
+    axios.post(
+        `${config.public.baseUrl}/task`, {
+        title: newTask.value.title,
+        subtasks: newTask.value.tasks,
+        available: true,
+        reward: newTask.value.reward
     })
-}
+        .then((response) => {
+            navigateTo(`/task/${response.data}`)
+        })
 
-watch(newTask.value.reward, (val) => {
-    if (value > 1000) result.value = 1000
-    if (value < 0) result.value = 0
-}, { deep: true })
+    // await useFetch(`${config.public.baseUrl}/task`, {
+    //     method: "post",
+    //     body: {
+    //         title: newTask.value.title,
+    //         subtasks: newTask.value.tasks,
+    //         available: true,
+    //         reward: newTask.value.reward
+    //     }
+    // })
+}
 
 </script>
 
@@ -153,10 +159,9 @@ watch(newTask.value.reward, (val) => {
 
     <template v-if="newTask.tasks.length > 0">
         <div v-for="t in newTask.tasks" class="task-card mx-auto my-2">
-            <p class="font-bold mb-1 text-xl">Тип</p>
             <div class="flex mb-4">
-                <p v-if="t.type == 0" class="my-auto">Несколько возможных ответов</p>
-                <p v-else-if="t.type == 1" class="my-auto">Единственный возможный ответ</p>
+                <p v-if="t.type == 0" class="my-auto">Несколько ответов</p>
+                <p v-else-if="t.type == 1" class="my-auto">Единственный ответ</p>
                 <p v-else-if="t.type == 2" class="my-auto">Свой ответ</p>
             </div>
 
@@ -169,7 +174,7 @@ watch(newTask.value.reward, (val) => {
                 <template v-for="(opt, index) in t.options">
                     <div class="flex">
                         <p class="w-fit my-auto mr-4">{{ opt.text }}</p>
-                        <p class="w-fit ml-auto rounded-2xl answer-badge">Ответ</p>
+                        <p v-if="opt.isAnswer" class="w-fit ml-auto rounded-2xl answer-badge">Ответ</p>
                     </div>
 
                     <HorizontalDivider v-if="index < t.options.length - 1" class="my-2" />
@@ -244,11 +249,11 @@ watch(newTask.value.reward, (val) => {
                 <HorizontalDivider v-if="index < newSubtask.options.length - 1" class="my-3" />
             </template>
 
-            <ButtonFilledSecondary text="Добавить" @click="addSection()" class="mt-8 ml-auto">
+            <ButtonFilledPrimary text="Добавить" @click="addSection()" class="mt-8 ml-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                     <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                 </svg>
-            </ButtonFilledSecondary>
+            </ButtonFilledPrimary>
         </div>
     </div>
 </template>
@@ -264,6 +269,7 @@ watch(newTask.value.reward, (val) => {
     min-width: 500px;
     transition: all 0.4s;
     background: var(--iskra-color-surface-variant);
+    border: solid var(--iskra-color-outline) 1px;
 }
 
 .task-card:hover {

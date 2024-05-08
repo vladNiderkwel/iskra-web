@@ -46,6 +46,7 @@ a:hover {
 
 .active-page, .active-page:hover {
     background: var(--iskra-color-green);
+    border: solid var(--iskra-color-green) 1px;
     color: var(--iskra-color-black);
 }
 </style>

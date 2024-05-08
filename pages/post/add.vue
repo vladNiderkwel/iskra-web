@@ -29,11 +29,12 @@ const addPost = async () => {
     form.append("author", 1)
 
     axios.post(
-        `${config.public.baseUrl}/post`, form,
-        {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        }
-    )
+        `${config.public.baseUrl}/post`, form, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    })
+        .then((response) => {
+            navigateTo(`/post/${response.data}`)
+        })
 
     title.value = ""
     description.value = ""
