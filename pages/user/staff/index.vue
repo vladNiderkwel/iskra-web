@@ -1,13 +1,13 @@
 <script setup>
-import Pagination from '~/components/Pagination.vue';
 import Title from '~/components/Title.vue';
+import Pagination from '~/components/Pagination.vue';
 
 const config = useRuntimeConfig()
 const page = ref(useRoute().query.page ? useRoute().query.page : 1)
 const query = ref("")
 
-const { data, error, pending, refresh } = await useAsyncData("allusers",
-  () => $fetch(`${config.public.baseUrl}/user`, {
+const { data, error, pending, refresh } = await useAsyncData("allstaff",
+  () => $fetch(`${config.public.baseUrl}/staff`, {
     method: 'get',
     query: {
       page: page.value,
@@ -33,7 +33,7 @@ const search = () => {
 
 <template>
   <div class="w-full h-full max-h-full p-2 overflow-y-scroll">
-    <Title text="Пользователи" />
+    <Title text="Сотрудники" />
 
     <div v-on:submit.prevent="search" class="search mt-4 mx-auto">
       <div class="icon" @click.prevent="search">
@@ -50,16 +50,12 @@ const search = () => {
       </div>
     </div>
 
-    <div class="flex justify-evenly my-4">
-      <ButtonTonal text="Сотрудники" @click="navigateTo('/user/staff')" />
-
-      <ButtonTonal text="Обновить" @click="refresh()">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-          <path
-            d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
-        </svg>
-      </ButtonTonal>
-    </div>
+    <ButtonTonal text="Обновить" @click="refresh()" class="mx-auto my-4">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+        <path
+          d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
+      </svg>
+    </ButtonTonal>
 
     <div class="mx-auto container">
       <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
@@ -72,8 +68,8 @@ const search = () => {
         </p>
 
         <template v-else>
-          <template v-for="(user, index) in data.content">
-            <UserCard :user="user" />
+          <template v-for="(staff, index) in data.content">
+            <StaffCard :staff="staff" />
             <HorizontalDivider v-if="index < data.content.length - 1" class="my-4" />
           </template>
 

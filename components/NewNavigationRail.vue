@@ -1,9 +1,13 @@
 <script setup>
 
+const staffEmail = useCookie('staffEmail')
 const staffRole = useCookie('staffRole')
+const staffBlocked = useCookie('staffBlocked')
 
 const logout = async () => {
-    staffRole.value = -1
+    staffEmail.value = null
+    staffRole.value = null
+    staffBlocked.value = null
     navigateTo("/login")
 }
 </script>

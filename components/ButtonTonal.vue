@@ -6,7 +6,7 @@ const haveSVG = () => !!slots["default"]
 </script>
 
 <template>
-    <a @click="emit('click')">
+    <a @click="emit('click')" class="flex h-fit w-fit py-2 px-4">
         <slot></slot>
         <p :class="{ 'ml-3': haveSVG() }" >{{ text }}</p>
     </a>
@@ -14,10 +14,6 @@ const haveSVG = () => !!slots["default"]
 
 <style scoped>
 a {
-    display: flex;
-    height: fit-content;
-    width: fit-content;
-    padding: 8px 16px;
     border-radius: 36px;
     outline: none;
     

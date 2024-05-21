@@ -1,5 +1,13 @@
 export default defineNuxtConfig({
 
+  app: {
+    head: {
+      link: [
+        { rel: "icon", type: "image/svg", href: "/favicon.svg" }
+      ]
+    }
+  },
+
   build: {
     transpile: ["vue-yandex-maps"]
   },
@@ -10,7 +18,6 @@ export default defineNuxtConfig({
     'vue-yandex-maps/nuxt',
     ['@nuxtjs/google-fonts', {
       families: {
-        PlayfairDisplay: [400, 500, 700],
         Rubik: [400, 500, 700],
       }
     }],

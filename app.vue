@@ -1,5 +1,6 @@
 <script setup>
 useHead({
+  title: "Искра",
   bodyAttrs: {
     class: '',
   },

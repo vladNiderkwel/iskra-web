@@ -5,10 +5,12 @@ const config = useRuntimeConfig()
 
 <template>
     <div @click="navigateTo(`/post/${post.id}`)" class="card">
+        
         <img v-if="post.photoUrl.length < 64" src="~assets/images/pattern_2.png"
             class="w-full object-cover h-56 mb-4 card-image" />
         <img v-else :src="`${config.public.baseUrl}/images/posts/${post.photoUrl}.jpg`"
             class="w-full object-cover h-56 mb-4 card-image">
+
         <div class="content">
             <p class="font-bold text-2xl w-full mb-2">{{ post.title }}</p>
 

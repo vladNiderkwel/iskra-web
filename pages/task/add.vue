@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios';
+import Title from '~/components/Title.vue';
 import ButtonTonal from '~/components/ButtonTonal.vue';
 
 const isAddSectionMenuVisible = ref(false)
@@ -136,124 +137,128 @@ const addTask = async () => {
 </script>
 
 <template>
-    <p class="title">Добавление задания</p>
+    <div class="w-full h-full max-h-full p-2 overflow-y-scroll">
+        
+        <Title text="Добавление задания" />
 
-    <div class="w-1/2 mx-auto mt-4">
-        <p class="font-bold my-2 text-2xl">Название</p>
-        <input v-model="newTask.title" type="text" maxlength="255" placeholder="Название" class="w-full text-input" />
-    </div>
-
-    <div class="w-1/2 mx-auto mt-4">
-        <p class="font-bold my-2 text-2xl">Вознаграждение</p>
-        <div class="flex">
-            <input type="number" min="0" max="1000" v-model="newTask.reward" class="text-input" />
-            <p class="ml-2 my-auto">опыта</p>
+        <div class="w-1/2 mx-auto mt-4">
+            <p class="font-bold my-2 text-2xl">Название</p>
+            <input v-model="newTask.title" type="text" maxlength="255" placeholder="Название"
+                class="w-full text-input" />
         </div>
-    </div>
 
-    <ButtonTonal @click="toggleAddingSectionMenu" text="Новое подзадание" class="mx-auto my-4">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-        </svg>
-    </ButtonTonal>
+        <div class="w-1/2 mx-auto mt-4">
+            <p class="font-bold my-2 text-2xl">Вознаграждение</p>
+            <div class="flex">
+                <input type="number" min="0" max="1000" v-model="newTask.reward" class="text-input" />
+                <p class="ml-2 my-auto">опыта</p>
+            </div>
+        </div>
 
-    <template v-if="newTask.tasks.length > 0">
-        <div v-for="t in newTask.tasks" class="task-card mx-auto my-2">
-            <div class="flex mb-4">
-                <p v-if="t.type == 0" class="my-auto">Несколько ответов</p>
-                <p v-else-if="t.type == 1" class="my-auto">Единственный ответ</p>
-                <p v-else-if="t.type == 2" class="my-auto">Свой ответ</p>
+        <ButtonTonal @click="toggleAddingSectionMenu" text="Новое подзадание" class="mx-auto my-4">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+            </svg>
+        </ButtonTonal>
+
+        <template v-if="newTask.tasks.length > 0">
+            <div v-for="t in newTask.tasks" class="task-card mx-auto my-2">
+                <div class="flex mb-4">
+                    <p v-if="t.type == 0" class="my-auto">Несколько ответов</p>
+                    <p v-else-if="t.type == 1" class="my-auto">Единственный ответ</p>
+                    <p v-else-if="t.type == 2" class="my-auto">Свой ответ</p>
+                </div>
+
+                <p class="font-bold mb-2 text-xl">Вопрос</p>
+                <p class="mb-4">{{ t.question }}</p>
+
+                <template v-if="t.type != 2">
+                    <p class="font-bold mb-2 text-xl">Варианты ответов</p>
+
+                    <template v-for="(opt, index) in t.options">
+                        <div class="flex">
+                            <p class="w-fit my-auto mr-4">{{ opt.text }}</p>
+                            <p v-if="opt.isAnswer" class="w-fit ml-auto rounded-2xl answer-badge">Ответ</p>
+                        </div>
+
+                        <HorizontalDivider v-if="index < t.options.length - 1" class="my-2" />
+                    </template>
+                </template>
+
+                <ButtonIcon @click="deleteSection(t.id)" class="ml-auto mt-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path
+                            d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                    </svg>
+                </ButtonIcon>
             </div>
 
-            <p class="font-bold mb-2 text-xl">Вопрос</p>
-            <p class="mb-4">{{ t.question }}</p>
-
-            <template v-if="t.type != 2">
-                <p class="font-bold mb-2 text-xl">Варианты ответов</p>
-
-                <template v-for="(opt, index) in t.options">
-                    <div class="flex">
-                        <p class="w-fit my-auto mr-4">{{ opt.text }}</p>
-                        <p v-if="opt.isAnswer" class="w-fit ml-auto rounded-2xl answer-badge">Ответ</p>
-                    </div>
-
-                    <HorizontalDivider v-if="index < t.options.length - 1" class="my-2" />
-                </template>
-            </template>
-
-            <ButtonIcon @click="deleteSection(t.id)" class="ml-auto mt-3">
+            <ButtonFilledPrimary @click="addTask" text="Сохранить и добавить" class="mx-auto my-4">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                     <path
-                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                        d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
                 </svg>
-            </ButtonIcon>
-        </div>
+            </ButtonFilledPrimary>
+        </template>
 
-        <ButtonFilledPrimary @click="addTask" text="Сохранить и добавить" class="mx-auto my-4">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                <path
-                    d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
-            </svg>
-        </ButtonFilledPrimary>
-    </template>
-
-    <div v-if="isAddSectionMenuVisible" class="absolute flex left-0 top-0 w-full h-full add-background">
-        <div class="block add-menu mx-auto my-auto rounded-2xl h-auto p-4">
-            <ButtonIcon @click="toggleAddingSectionMenu" class="ml-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                    <path
-                        d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                </svg>
-            </ButtonIcon>
-
-            <p v-if="newSubtask.type == 0" class="mb-2 text-center w-full text-xl">
-                Вопрос с несколькими возможными ответами
-            </p>
-            <p v-if="newSubtask.type == 1" class="mb-2 text-center w-full text-xl">
-                Вопрос с единственным возможным ответом
-            </p>
-            <p v-if="newSubtask.type == 2" class="mb-2 text-center w-full text-xl">
-                Вопрос со своим ответом
-            </p>
-
-            <p class="font-bold mb-1 text-2xl">Вопрос</p>
-            <textarea class="w-full mb-4 text-input" maxlength="255" v-model="newSubtask.question"></textarea>
-
-            <p class="font-bold mb-1 text-2xl">Возможные ответы</p>
-
-            <div class="flex mb-4">
-                <ButtonIcon @click="addOption" class="mr-4">
+        <div v-if="isAddSectionMenuVisible" class="absolute flex left-0 top-0 w-full h-full add-background">
+            <div class="block add-menu mx-auto my-auto rounded-2xl h-auto p-4">
+                <ButtonIcon @click="toggleAddingSectionMenu" class="ml-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                        <path
+                            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                     </svg>
                 </ButtonIcon>
 
-                <input type="text" v-model="option.text" class="w-full text-input" placeholder="Пример ответа" />
-                <label class="chip ml-2 my-auto">
-                    <input type="checkbox" v-model="option.isAnswer" id="is-answer-check" class="appearance-none">
-                    <span>Ответ</span>
-                </label>
-            </div>
+                <p v-if="newSubtask.type == 0" class="mb-2 text-center w-full text-xl">
+                    Вопрос с несколькими возможными ответами
+                </p>
+                <p v-if="newSubtask.type == 1" class="mb-2 text-center w-full text-xl">
+                    Вопрос с единственным возможным ответом
+                </p>
+                <p v-if="newSubtask.type == 2" class="mb-2 text-center w-full text-xl">
+                    Вопрос со своим ответом
+                </p>
 
-            <template v-for="(opt, index) in newSubtask.options">
-                <div class="flex option max-w-full">
-                    <p class="my-auto w-full mr-4 break-words">{{ opt.text }}</p>
-                    <p v-if="opt.isAnswer" class="my-auto rounded-2xl mr-4 answer-badge">Ответ</p>
-                    <ButtonIcon @click="deleteOption(opt.id)" class="ml-auto my-auto">
+                <p class="font-bold mb-1 text-2xl">Вопрос</p>
+                <textarea class="w-full mb-4 text-input" maxlength="255" v-model="newSubtask.question"></textarea>
+
+                <p class="font-bold mb-1 text-2xl">Возможные ответы</p>
+
+                <div class="flex mb-4">
+                    <ButtonIcon @click="addOption" class="mr-4">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                            <path
-                                d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                         </svg>
                     </ButtonIcon>
-                </div>
-                <HorizontalDivider v-if="index < newSubtask.options.length - 1" class="my-3" />
-            </template>
 
-            <ButtonFilledPrimary text="Добавить" @click="addSection()" class="mt-8 ml-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                </svg>
-            </ButtonFilledPrimary>
+                    <input type="text" v-model="option.text" class="w-full text-input" placeholder="Пример ответа" />
+                    <label class="chip ml-2 my-auto">
+                        <input type="checkbox" v-model="option.isAnswer" id="is-answer-check" class="appearance-none">
+                        <span>Ответ</span>
+                    </label>
+                </div>
+
+                <template v-for="(opt, index) in newSubtask.options">
+                    <div class="flex option max-w-full">
+                        <p class="my-auto w-full mr-4 break-words">{{ opt.text }}</p>
+                        <p v-if="opt.isAnswer" class="my-auto rounded-2xl mr-4 answer-badge">Ответ</p>
+                        <ButtonIcon @click="deleteOption(opt.id)" class="ml-auto my-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                            </svg>
+                        </ButtonIcon>
+                    </div>
+                    <HorizontalDivider v-if="index < newSubtask.options.length - 1" class="my-3" />
+                </template>
+
+                <ButtonFilledPrimary text="Добавить" @click="addSection()" class="mt-8 ml-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg>
+                </ButtonFilledPrimary>
+            </div>
         </div>
     </div>
 </template>

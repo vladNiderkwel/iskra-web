@@ -10,12 +10,12 @@ const { data, error, pending, refresh } = await useAsyncData(`user-task-${id}`,
 )
 
 const isUserAnswer = (allUserAnswers, subtask, option) => {
-    let userAnswer = allUserAnswers.find( answer => answer.subtask.id === subtask.id )
-    return userAnswer.answers.filter( opt => opt.id === option.id).length > 0
+    let userAnswer = allUserAnswers.find(answer => answer.subtask.id === subtask.id)
+    return userAnswer.answers.filter(opt => opt.id === option.id).length > 0
 }
 
 const getWrittenAnswer = (allUserAnswers, subtask) => {
-    return allUserAnswers.find( answer => answer.subtask.id === subtask.id ).writtenAnswer
+    return allUserAnswers.find(answer => answer.subtask.id === subtask.id).writtenAnswer
 }
 
 const result = ref(0)
@@ -25,61 +25,63 @@ const saveCheck = async () => {
 }
 
 watch(result, (value) => {
-    if(value > 10) result.value = 10
-    if(value < 0) result.value = 0
+    if (value > 10) result.value = 10
+    if (value < 0) result.value = 0
 })
 </script>
 
 
 <template>
-    <ButtonTonal text="Обновить" @click="refresh()" class="mx-auto my-4">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-            <path
-                d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
-        </svg>
-    </ButtonTonal>
+    <div class="w-full h-full max-h-full p-2 overflow-y-scroll">
+        <ButtonTonal text="Обновить" @click="refresh()" class="mx-auto my-4">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                <path
+                    d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
+            </svg>
+        </ButtonTonal>
 
-    <div class="mx-auto content">
-        <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
+        <div class="mx-auto content">
+            <LoadingIndicator v-if="pending" class="mx-auto mt-8" />
 
-        <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
+            <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
-        <template v-else>
-            <div class="flex self-center mt-4 ml-auto w-fit">
-                <img class="ml-4 mr-2 w-6 h-6 rounded-full my-auto" src="~assets/images/photo_placeholder.png" />
-                <p class="my-auto">{{ data.user.name }}</p>
-            </div>
+            <template v-else>
+                <div class="flex self-center mt-4 ml-auto w-fit">
+                    <img class="ml-4 mr-2 w-6 h-6 rounded-full my-auto" src="~assets/images/photo_placeholder.png" />
+                    <p class="my-auto">{{ data.user.name }}</p>
+                </div>
 
-            <p class="font-bold text-xl text-center">{{ data.task.title }}</p>
-            <div v-for="subtask in data.task.subtasks" class="my-2 subtask">
+                <p class="font-bold text-xl text-center">{{ data.task.title }}</p>
+                <div v-for="subtask in data.task.subtasks" class="my-2 subtask">
 
-                <p class="mt-2 text-lg font-bold">{{ subtask.question }}</p>
+                    <p class="mt-2 text-lg font-bold">{{ subtask.question }}</p>
 
-                <p v-if="subtask.type == 0" class="my-auto italic mt-2">Несколько возможных ответов</p>
-                <p v-else-if="subtask.type == 1" class="my-auto italic mt-2">Единственный возможный ответ</p>
-                <p v-else-if="subtask.type == 2" class="my-auto italic mt-2">Свой ответ</p>
-                
-                <template v-for="(option, index) in subtask.options">
-                    <div class="flex px-4 py1 mt-2">
-                        <p class="">{{ option.text }}</p>
-                        <Badge v-if="isUserAnswer(data.answers, subtask, option)" 
-                            text="Ответ пользователя" class="ml-2"/>
-                        <Badge v-if="option.isAnswer" text="Ответ" class="ml-2"/>
-                    </div>
-                    <HorizontalDivider class="my-2" v-if="index < subtask.options.length - 1" />
-                </template>
+                    <p v-if="subtask.type == 0" class="my-auto italic mt-2">Несколько возможных ответов</p>
+                    <p v-else-if="subtask.type == 1" class="my-auto italic mt-2">Единственный возможный ответ</p>
+                    <p v-else-if="subtask.type == 2" class="my-auto italic mt-2">Свой ответ</p>
 
-                <p v-if="subtask.type == 2">{{ data }}</p>
-            </div>
+                    <template v-for="(option, index) in subtask.options">
+                        <div class="flex px-4 py1 mt-2">
+                            <p class="">{{ option.text }}</p>
+                            <Badge v-if="isUserAnswer(data.answers, subtask, option)" text="Ответ пользователя"
+                                class="ml-2" />
+                            <Badge v-if="option.isAnswer" text="Ответ" class="ml-2" />
+                        </div>
+                        <HorizontalDivider class="my-2" v-if="index < subtask.options.length - 1" />
+                    </template>
 
-            <div class="flex mt-5">
-                <p class="mr-2 my-auto font-bold">Оценка</p>
-                <input type="number" min="0" max="10" v-model="result" class="text-input"/>
-                <p class="ml-2 my-auto">из 10</p>
+                    <p v-if="subtask.type == 2">{{ data }}</p>
+                </div>
 
-                <ButtonFilledPrimary text="Сохранить" @click="saveCheck()" class="ml-auto"/>
-            </div>
-        </template>
+                <div class="flex mt-5">
+                    <p class="mr-2 my-auto font-bold">Оценка</p>
+                    <input type="number" min="0" max="10" v-model="result" class="text-input" />
+                    <p class="ml-2 my-auto">из 10</p>
+
+                    <ButtonFilledPrimary text="Сохранить" @click="saveCheck()" class="ml-auto" />
+                </div>
+            </template>
+        </div>
     </div>
 </template>
 

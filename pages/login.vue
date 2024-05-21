@@ -10,7 +10,8 @@ const password = ref('')
 
 const staffEmail = useCookie('staffEmail')
 const staffRole = useCookie('staffRole')
-const staffToken = useCookie('staffToken')
+const staffBlocked = useCookie('staffBlocked')
+const staffPasswordChanged = useCookie('staffPasswordChanged')
 
 const loginFetch = ref({
   data: null,
@@ -29,22 +30,22 @@ const login = async () => {
 }
 
 watch(loginFetch, (value) => {
-
   if (value.data != null) {
-    staffEmail.value = email.value.trim()
+    staffEmail.value = value.data.email
     staffRole.value = value.data.role
-    staffToken.value = value.data.token
+    staffBlocked.value = value.data.isBlocked
+    staffPasswordChanged.value = value.data.isPasswordChanged
 
     navigateTo("/")
   }
-
 })
 </script>
 
 <template>
   <div class="flex justify-between flex-col h-full">
     <form class="mx-auto flex flex-col items-center w-auto my-auto" @submit.prevent="login">
-      <p class="title">Вход в систему</p>
+
+      <Title text="Вход в систему" />
 
       <div class="mt-8 flex w-full">
         <svg class="mr-3 my-auto" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -63,6 +64,8 @@ watch(loginFetch, (value) => {
       </div>
 
       <input type="submit" value="Войти" class="mt-8 ml-auto button-green-filled">
+
+      <ButtonTonal text="Впервые входите в аккаунт?" @click="navigateTo('/signup')" class="mx-auto my-4" />
 
       <ErrorLabel message="Подобного пользователя нет" class="mx-auto mt-4"
         v-if="loginFetch.error && loginFetch.error.statusCode == 404" />
