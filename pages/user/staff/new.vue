@@ -15,9 +15,6 @@ const newStaffFetch = ref({
 })
 
 const register = async () => {
-
-    if (newPassword.value != newPasswordConfirm.value) return
-
     newStaffFetch.value = await useFetch(`${config.public.baseUrl}/staff/new`, {
         method: "post",
         body: {
@@ -29,6 +26,8 @@ const register = async () => {
         }
     })
 }
+
+watch()
 </script>
 
 <template>

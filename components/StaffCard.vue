@@ -15,6 +15,10 @@ const toggleBlock = async () => {
         <p v-if="staff.role === 0" class="text-lg mx-auto my-auto">Тьютор</p>
         <p v-if="staff.role === 1" class="text-lg mx-auto my-auto">Админ</p>
 
+        <p v-if="staff.isPasswordChanged == false" class="text-lg my-auto" style="color: var(--iskra-color-error);">
+            Не сменил пароль
+        </p>
+
         <p v-if="staff.isBlocked == true" class="text-lg my-auto" style="color: var(--iskra-color-error);">
             Заблокирован
         </p>

@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios';
 import Badge from '~/components/Badge.vue';
 
 const config = useRuntimeConfig()
@@ -21,7 +22,12 @@ const getWrittenAnswer = (allUserAnswers, subtask) => {
 const result = ref(0)
 
 const saveCheck = async () => {
-    console.log(result.value)
+
+    if (data.value.result > 10) data.value.result = 10
+    if (data.value.result < 0) data.value.result = 0
+
+    await axios.put(`${config.public.baseUrl}/user-task/`, data.value)
+        .then(navigateTo("/task/check/"))
 }
 
 watch(result, (value) => {
@@ -47,35 +53,40 @@ watch(result, (value) => {
 
             <template v-else>
                 <div class="flex self-center mt-4 ml-auto w-fit">
-                    <img class="ml-4 mr-2 w-6 h-6 rounded-full my-auto" src="~assets/images/photo_placeholder.png" />
+                    <img v-if="data.user.photoUrl.length < 64" class="h-8 w-8 rounded-full mr-2 my-auto"
+                        src="~assets/images/photo_placeholder.png" />
+                    <img v-else class="h-8 w-8 rounded-full mr-2 my-auto"
+                        :src="`${config.public.baseUrl}/images/photos/${data.user.photoUrl}.jpg`" />
                     <p class="my-auto">{{ data.user.name }}</p>
                 </div>
 
                 <p class="font-bold text-xl text-center">{{ data.task.title }}</p>
-                <div v-for="subtask in data.task.subtasks" class="my-2 subtask">
+                <div v-for="answer in data.answers" class="my-2 subtask">
 
-                    <p class="mt-2 text-lg font-bold">{{ subtask.question }}</p>
+                    <p class="mt-2 text-lg font-bold">{{ answer.subtask.question }}</p>
 
-                    <p v-if="subtask.type == 0" class="my-auto italic mt-2">Несколько возможных ответов</p>
-                    <p v-else-if="subtask.type == 1" class="my-auto italic mt-2">Единственный возможный ответ</p>
-                    <p v-else-if="subtask.type == 2" class="my-auto italic mt-2">Свой ответ</p>
+                    <p v-if="answer.subtask.type == 0" class="my-auto italic mt-2">Несколько возможных ответов</p>
+                    <p v-else-if="answer.subtask.type == 1" class="my-auto italic mt-2">Единственный возможный ответ</p>
+                    <p v-else-if="answer.subtask.type == 2" class="my-auto italic mt-2">Свой ответ</p>
 
-                    <template v-for="(option, index) in subtask.options">
-                        <div class="flex px-4 py1 mt-2">
-                            <p class="">{{ option.text }}</p>
-                            <Badge v-if="isUserAnswer(data.answers, subtask, option)" text="Ответ пользователя"
-                                class="ml-2" />
-                            <Badge v-if="option.isAnswer" text="Ответ" class="ml-2" />
+                    <template v-for="(option, index) in answer.subtask.options">
+                        <div class="flex px-4 py1 mt-2 w-full">
+                            <p class="mr-4">{{ option.text }}</p>
+                            <div class="ml-auto">
+                                <Badge v-if="isUserAnswer(data.answers, answer.subtask, option)"
+                                    text="Ответ пользователя" class="ml-2" />
+                                <Badge v-if="option.isAnswer" text="Ответ" class="ml-2" />
+                            </div>
                         </div>
-                        <HorizontalDivider class="my-2" v-if="index < subtask.options.length - 1" />
+                        <HorizontalDivider class="my-2" v-if="index < answer.subtask.options.length - 1" />
                     </template>
 
-                    <p v-if="subtask.type == 2">{{ data }}</p>
+                    <p v-if="answer.subtask.type == 2">{{ answer.writtenAnswer }}</p>
                 </div>
 
                 <div class="flex mt-5">
                     <p class="mr-2 my-auto font-bold">Оценка</p>
-                    <input type="number" min="0" max="10" v-model="result" class="text-input" />
+                    <input type="number" min="0" max="10" v-model="data.result" class="text-input" />
                     <p class="ml-2 my-auto">из 10</p>
 
                     <ButtonFilledPrimary text="Сохранить" @click="saveCheck()" class="ml-auto" />

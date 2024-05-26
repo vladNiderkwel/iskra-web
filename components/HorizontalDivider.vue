@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full" style="height: 0.25px;"></div>
+    <div class="w-full h-[0.25px]"></div>
 </template>
 
 <style scoped>

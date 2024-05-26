@@ -25,7 +25,7 @@ const newMarkName = ref("")
 const newMarkType = ref(0)
 
 const mapTheme = ref("light")
-if (isDarkMode) mapTheme.value = "dark"
+if (isDarkMode.value) mapTheme.value = "dark"
 
 // Longitude - Долгота / Latitude - широта
 const RESTRICTED_AREA = [

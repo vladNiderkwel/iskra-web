@@ -1,11 +1,24 @@
 <script setup>
+const config = useRuntimeConfig()
 const { event } = defineProps(['event'])
 </script>
 
 <template>
     <div @click="navigateTo(`/event/${event.id}`)" class="card mx-auto">
 
-        <p>{{ getDateString(event.startDate) + " / " + getDateString(event.endDate) }}</p>
+        <div class="flex justify-between">
+            <p class="py-auto">{{ getDateString(event.startDate) + " / " + getDateString(event.endDate) }}</p>
+
+            <div class="flex py-auto self-center w-fit">
+            <img v-if="event.author.photoUrl.length < 64" class="h-8 w-8 rounded-full mr-2 my-auto"
+                src="~assets/images/photo_placeholder.png" />
+            <img v-else class="h-8 w-8 rounded-full mr-2 my-auto"
+                :src="`${config.public.baseUrl}/images/photos/${event.author.photoUrl}.jpg`" />
+            
+            <p class="my-auto">{{ event.author.name }}</p>
+        </div>
+        </div>
+        
 
         <p class="font-bold text-xl mt-2 w-full">{{ event.title }}</p>
 
@@ -17,11 +30,6 @@ const { event } = defineProps(['event'])
         </div>
 
         <p class="content mt-2">{{ event.description }}</p>
-
-        <div class="flex self-center mt-4 ml-auto w-fit">
-            <img class="ml-4 mr-2 w-6 h-6 rounded-full my-auto" src="~assets/images/photo_placeholder.png" />
-            <p class="my-auto">{{ event.author.name }}</p>
-        </div>
     </div>
 </template>
 

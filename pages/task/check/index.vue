@@ -10,7 +10,7 @@ const { data, error, pending, refresh } = await useAsyncData(`user-tasks`,
 
 <template>
     <div class="w-full h-full max-h-full p-2 overflow-y-scroll">
-        
+
         <Title text="Проверка заданий" />
 
         <ButtonTonal text="Обновить" @click="refresh()" class="mx-auto my-4">
@@ -26,11 +26,14 @@ const { data, error, pending, refresh } = await useAsyncData(`user-tasks`,
             <ErrorLabel v-else-if="error" class="mx-auto mt-4" />
 
             <template v-else>
-                <template v-for="userTask in data.content">
-                    <TaskCard :task="userTask" class="my-3 mx-auto" />
-                </template>
+                <p v-if="data.content.legth == 0">Пока ничего проверять не надо</p>
 
-                <Pagination v-if="data.totalPages > 1" class="mt-8" v-model="page" :totalPages="data.totalPages" />
+                <template v-else>
+                    <CheckTaskCard v-for="userTask in data.content" :userTask="userTask" class="my-3 mx-auto" />
+
+                    <Pagination v-if="data.totalPages > 1" class="mt-8" 
+                        v-model="page" :totalPages="data.totalPages" />
+                </template>
             </template>
         </div>
     </div>
