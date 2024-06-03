@@ -11,13 +11,15 @@ const { data, error, pending, refresh } =
 
 const fetch = ref({
     pending: false,
-    status: null,
+    status: 0,
     error: false
 })
 
 const saveAnswer = async () => {
     fetch.value.pending = true
     fetch.value.error = false
+
+    data.value.phase = 1
 
     axios.put(`${config.public.baseUrl}/question`, data.value)
         .then((response) => {
@@ -27,10 +29,6 @@ const saveAnswer = async () => {
             fetch.value.pending = false
             fetch.value.error = true
         })
-}
-
-const report = () => {
-    console.log(question.value.answer)
 }
 
 </script>
@@ -52,7 +50,11 @@ const report = () => {
 
         <div v-else class="mx-auto mt-4 w-4/5 min-w-min">
             <div class="flex mb-4">
-                <img class="mr-3 !my-auto rounded-full w-9 h-9" src="~assets/images/photo_placeholder.png" />
+                <img v-if="data.author.photoUrl.length < 64" class="mr-3 !my-auto rounded-full w-9 h-9"
+                    src="~assets/images/photo_placeholder.png" />
+                <img v-else class="mr-3 !my-auto rounded-full w-9 h-9"
+                    :src="`${config.public.baseUrl}/images/photos/${data.author.photoUrl}.jpg`" />
+
                 <p class="text-lg my-auto">{{ data.author.name }}</p>
             </div>
             <p class="w-full h-fit my-4" id="question">{{ data.question }}</p>

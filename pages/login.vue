@@ -97,8 +97,6 @@ form {
 }
 
 .cookie {
-  background: var(--iskra-color-surface-variant);
-  padding: 8px 16px;
   fill: var(--iskra-color-on-surface-variant);
   color: var(--iskra-color-on-surface-variant);
 }

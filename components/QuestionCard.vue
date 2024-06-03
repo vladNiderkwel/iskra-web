@@ -1,4 +1,5 @@
 <script setup>
+const config = useRuntimeConfig()
 const { question } = defineProps(['question'])
 
 </script>
@@ -7,7 +8,11 @@ const { question } = defineProps(['question'])
     <div @click="navigateTo(`/question/${question.id}`)" class="card">
 
         <div class="flex">
-            <img class="mr-3 my-auto w-8 h-8 rounded-full" src="~assets/images/photo_placeholder.png" />
+            <img v-if="question.author.photoUrl.length < 64" class="mr-3 my-auto w-8 h-8 rounded-full"
+                src="~assets/images/photo_placeholder.png" />
+            <img v-else class="mr-3 my-auto w-8 h-8 rounded-full"
+                :src="`${config.public.baseUrl}/images/photos/${question.author.photoUrl}.jpg`" />
+
             <p class="my-auto">{{ question.author.name }}</p>
         </div>
 
