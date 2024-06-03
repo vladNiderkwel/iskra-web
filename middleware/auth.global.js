@@ -13,7 +13,7 @@ const tutorAllowed = [
 
 const adminAllowed = [
     "/user",
-    "/service",
+    // "/service",
 ]
 
 export default defineNuxtRouteMiddleware((to, from) => {
