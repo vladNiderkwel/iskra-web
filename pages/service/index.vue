@@ -1,4 +1,3 @@
-<!--
 <script setup>
 import ServiceCard from '~/components/ServiceCard.vue';
 import Title from '~/components/Title.vue';
@@ -41,4 +40,3 @@ const { pending, data: services, error, refresh } =
 @import '~/assets/css/Titles.css';
 @import '~/assets/css/Button.css';
 </style>
--->

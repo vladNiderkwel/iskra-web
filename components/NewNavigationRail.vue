@@ -67,7 +67,6 @@ const logout = async () => {
             </NuxtLink>
             <p class="w-fit mx-auto">Вопросы</p>
         </li>
-        <!--
         <li class="my-2">
             <NuxtLink class="mx-auto w-fit" to="/service">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -77,7 +76,6 @@ const logout = async () => {
             </NuxtLink>
             <p class="w-fit mx-auto">Сервисы</p>
         </li>
-        -->
         <li class="my-2" v-if="staffRole == 1">
             <NuxtLink class="mx-auto w-fit" to="/user">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
