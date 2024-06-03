@@ -64,12 +64,14 @@ const getRoleName = (role) => {
         <ButtonTonal text="Все" @click="navigateTo('/question')" class="w-fit h-fit ml-auto" />
       </div>
 
+      <!--
       <HorizontalDivider class="my-4" />
 
       <div class="flex">
         <p class="font-bold text-xl my-auto">Сервисы</p>
         <ButtonTonal text="Все" @click="navigateTo('/service')" class="w-fit h-fit ml-auto" />
       </div>
+      -->
 
       <HorizontalDivider class="my-4" v-if="staffRole == '1'" />
 
