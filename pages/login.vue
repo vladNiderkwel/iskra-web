@@ -1,4 +1,6 @@
 <script setup>
+import Title from '~/components/Title.vue';
+
 definePageMeta({
   layout: "nosidebar",
 });

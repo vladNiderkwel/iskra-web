@@ -45,7 +45,7 @@ const getRoleName = (role) => {
       <HorizontalDivider class="my-4" />
 
       <div class="flex">
-        <p class="font-bold text-xl my-auto">Мероприятия</p>
+        <p class="font-bold text-xl my-auto">События</p>
         <ButtonTonal text="Все" @click="navigateTo('/event')" class="w-fit h-fit ml-auto" />
       </div>
 
@@ -64,16 +64,16 @@ const getRoleName = (role) => {
         <ButtonTonal text="Все" @click="navigateTo('/question')" class="w-fit h-fit ml-auto" />
       </div>
 
-      <HorizontalDivider class="my-4" />
+      <HorizontalDivider class="my-4" v-if="staffRole == 1"/>
 
-      <div class="flex">
-        <p class="font-bold text-xl my-auto">Сервисы</p>
+      <div class="flex" v-if="staffRole == 1">
+        <p class="font-bold text-xl my-auto">Модули</p>
         <ButtonTonal text="Все" @click="navigateTo('/service')" class="w-fit h-fit ml-auto" />
       </div>
       
-      <HorizontalDivider class="my-4" v-if="staffRole == '1'" />
+      <HorizontalDivider class="my-4" v-if="staffRole == 1" />
 
-      <div class="flex" v-if="staffRole == '1'">
+      <div class="flex" v-if="staffRole == 1">
         <p class="font-bold text-xl my-auto">Пользователи</p>
         <ButtonTonal text="Зарегистрировать сотрудника" @click="navigateTo('/user/staff/new')" class="ml-auto" />
         <ButtonTonal text="Сотрудники" @click="navigateTo('/user/staff')" class="ml-3" />

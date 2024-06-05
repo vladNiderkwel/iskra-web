@@ -14,7 +14,7 @@ const { pending, data: services, error, refresh } =
 <template>
     <div class="w-full h-full max-h-full p-2">
 
-        <Title text="Сервисы" />
+        <Title text="Модули" />
 
         <ButtonTonal text="Обновить" @click="refresh()" class="mx-auto mt-4">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">

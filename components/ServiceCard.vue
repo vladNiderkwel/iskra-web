@@ -12,7 +12,7 @@ switch (service.id) {
         name.value = "Задания"
         break;
     case 2:
-        name.value = "Мероприятия"
+        name.value = "События"
         break;
     case 3:
         name.value = "Карта"
